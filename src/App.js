@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AppRoutes from "./routes";
+import Header from "./Widget/Header/Header";
 
 const App = () => {
     const navigate = useNavigate();
@@ -12,7 +13,9 @@ const App = () => {
         }
     }, [navigate]);
 
-    return <AppRoutes />;
+    return (
+            <AppRoutes />
+    );
 };
 
 export default App;

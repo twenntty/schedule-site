@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import Home from "./pages/Home";
 import RegisterUser from "./components/RegisterUser";
 import MembersList from "./components/MembersList";
 import CreateLesson from "./components/CreateLesson";
 import CreateRoom from "./components/CreateRoom";
 import CreatePeriod from "./components/CreatePeriod";
+import Home from "./pages/Home";
+import Schedule from "./pages/Schedule"
 
 const AuthRedirect = ({ children }) => {
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ const AppRoutes = () => {
                 <Route path="/dashboard/createlesson" element={<CreateLesson />} />
                 <Route path="/inst/rooms" element={<CreateRoom />} />
                 <Route path="/periods" element={<CreatePeriod />} />
+                <Route path="/schedule" element={<Schedule />} />
             </Routes>
         </Router>
     );

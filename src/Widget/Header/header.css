@@ -1,0 +1,54 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 50px;
+  }
+  
+  .logo {
+    width: 238px;
+    height: auto;
+  }
+  
+  .navbar {
+    display: flex; /* Головне виправлення: робимо меню горизонтальним */
+    gap: 71px; /* Відстань між посиланнями */
+  }
+  
+  .nav {
+    font-size: 14px;
+    text-decoration: none;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+  }
+  
+  /* Адаптація */
+  @media (max-width: 1200px) {
+    .logo {
+      margin-right: 100px;
+    }
+  
+    .navbar {
+      gap: 40px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .logo,
+    .navbar,
+    .login {
+      margin: 0;
+    }
+  
+    .navbar {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+  

@@ -1,0 +1,20 @@
+.button_login {
+    background-color: rgba(117, 117, 117, 0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 180px;
+    height: 40px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+    border-radius: 44px;
+    outline: none;
+    border: none;
+    color: white;
+}
+
+.button_login:hover {
+    background-color: rgba(117, 117, 117, 0.4);
+}
