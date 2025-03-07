@@ -11,6 +11,22 @@ const Home = () => {
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedGroup, setSelectedGroup] = useState("");
 
+    // Массив с днями недели
+    const weekDays = [
+        { id: 1, name: "Понедельник" },
+        { id: 2, name: "Вторник" },
+        { id: 3, name: "Среда" },
+        { id: 4, name: "Четверг" },
+        { id: 5, name: "Пятница" },
+        { id: 6, name: "Суббота" },
+    ];
+
+    // Функция для получения дня недели по id
+    const getDayOfWeek = (dayOfWeek) => {
+        const day = weekDays.find(day => day.id === dayOfWeek);
+        return day ? day.name : "Неизвестно"; // Если день не найден, возвращаем "Неизвестно"
+    };
+
     // Загружаем специальности при загрузке страницы
     useEffect(() => {
         const fetchSpecialties = async () => {
@@ -95,7 +111,6 @@ const Home = () => {
         };
         return abbreviations[lessonType] || "";
     };
-    
 
     return (
         <div>
@@ -134,7 +149,6 @@ const Home = () => {
                 ))}
             </select>
 
-
             <h3>Расписание:</h3>
             {schedule.length === 0 ? (
                 <p>Нет занятий</p>
@@ -146,7 +160,11 @@ const Home = () => {
                             <br />
                             <strong>{lesson.teacher}</strong> 
                             <br />
-                            {lesson.period.startTime} - {lesson.period.endTime}
+                            {lesson.period && lesson.period.startTime} - {lesson.period && lesson.period.endTime}
+                            <br />
+                            <strong>Кабинет:</strong> {lesson.room ? lesson.room.name : "Не указан"}
+                            <br />
+                            <strong>День недели:</strong> {lesson.dayOfWeek ? getDayOfWeek(lesson.dayOfWeek) : "Не указан"}
                         </li>
                     ))}
                 </ul>

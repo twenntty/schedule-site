@@ -21,7 +21,7 @@ const Dashboard = () => {
         };
 
         fetchUserData();
-    }, []);
+    }, []); // 🔹 Закрыли useEffect!
 
     // ✅ Функция выхода
     const handleLogout = () => {
@@ -38,7 +38,6 @@ const Dashboard = () => {
                 <div>
                     <p><strong>ПІБ:</strong> {user.firstName} {user.lastName}</p>
                     <p><strong>Должность:</strong> {user.position}</p>
-                    <p><strong>Роль:</strong> {user.role}</p>
                 </div>
             )}
 
@@ -69,6 +68,26 @@ const Dashboard = () => {
                     </Link>
                 </>
             )}
+
+            {/* ✅ Для ADMIN и INSTITUTION - управление кабинетами */}
+            {(user?.role === "admin" || user?.role === "institution") && (
+                <>
+                    <h2>Управление кабинетами</h2>
+                    <Link to="/inst/rooms">
+                        <button>🏫 Кабинеты</button>
+                    </Link>
+                </>
+            )}
+
+            {(user?.role === "admin" || user?.role === "institution") && (
+                <>
+                    <h2>Управление расписанием</h2>
+                    <Link to="/periods">
+                        <button>⏰ Промежутки пар</button>
+                    </Link>
+                </>
+            )}
+
         </div>
     );
 };
