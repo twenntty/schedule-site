@@ -17,6 +17,11 @@
     color: black;
 }
 
+.Adduniversity.active {
+    background-color: white;
+    color: black;
+}
+
 .information_button {
     width: 470px;
     height: 85px;
