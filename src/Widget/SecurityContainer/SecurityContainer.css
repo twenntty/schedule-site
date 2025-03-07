@@ -1,0 +1,31 @@
+.main_security {
+    padding: 50px 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+
+.Security_header {
+    max-width: 500px;
+}
+
+.security_text {
+    display: flex;
+    flex-direction: column;
+}
+
+.svg_security {
+    width: 365px;
+    height: 355px;
+    margin-top: 90px;
+}
+
+.security {
+    color: white;
+    font-size: 16px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    max-width: 500px;
+    line-height: 24px;
+}
