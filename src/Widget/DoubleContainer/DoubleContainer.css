@@ -1,0 +1,134 @@
+.text {
+    display: flex;
+    align-items: center;
+}
+
+h3 {
+    font-size: 64px;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+}
+
+.about {
+    font-size: 16px;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 200;
+    line-height: 24px;
+    text-align: left;
+    padding-top: 30px;
+    max-width: 600px;
+}
+
+.main_text_double {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.button_add {
+    padding-left: 350px;
+}
+
+
+.number_one {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #5a7a9e, #728a9e);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.name_one {
+    font-size: 16px;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    line-height: 24px;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.about_one {
+    font-size: 13px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+    color: white;
+    line-height: 18px;
+    max-width: 300px;
+    padding-left: 10px;
+    margin: 2px 0;
+}
+
+.number_two {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #a97bbd, #c4a8d4);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.number_three {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #b1684a, #d6c2a3);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.number_four {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #5dbb9a, #c6d488);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.number_five {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #1c758a, #4a9885);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.number_six {
+    width: 390px;
+    height: 160px;
+    background: linear-gradient(135deg, #5d5baf, #7a88cf);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.lightin_all {
+    display: flex;
+    flex-wrap: wrap; /* Чтобы переносились на новую строку */
+    gap: 40px; /* Отступы только между карточками */
+    justify-content: space-between; /* Равномерное распределение */
+    width: 100%; /* Во всю ширину */
+}
+
+.lightin {
+    margin-top: 100px;
+}
+
+.main_double {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 50px;
+
+}

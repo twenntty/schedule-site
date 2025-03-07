@@ -1,0 +1,74 @@
+.gradient {
+    font-size: 45px;
+    font-family: 'e-Ukraine';
+    font-weight: bold;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #4AB8FF 0%, #C8E6C9 50%, #FFF9C4 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+    margin: 0;
+}
+
+.main_text {
+    display: flex;
+    max-width: 900px;
+    text-align: center;
+    margin: 0 auto;
+    flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    align-items: center;
+}
+
+.text_and_button {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px; /* Ограничение ширины */
+  margin: 0 auto;
+}
+
+.plus_info {
+    font-size: 25px;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+    max-width: 600px;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.telephone {
+    height: 756px;
+    width: 372px;
+}
+
+.main { 
+    display: flex;
+    padding: 20px 50px;
+}
+
+.button_rozklad {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Everyone_text {
+    font-size: 15px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 100;
+    color: white;
+    max-width: 200px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+}
