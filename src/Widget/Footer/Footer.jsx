@@ -26,9 +26,8 @@ const Footer = () => {
         <div className="coopyright">
             <p className="fonts_e_ukraine">Шрифт e-Ukraine використовується відповідно до ліцензії CC BY 4.0</p>
             <p className="coop">schedgo.online © 2025</p>
-            <Link to="/">
-                <img src={Logo} alt="Logo" className="logo" />
-            </Link>
+            
+            <img src={Logo} alt="Logo" className="logo" />
         </div>
     </footer>
   )

@@ -1,0 +1,197 @@
+.Adduniversity {
+    width: 470px;
+    height: 85px;
+    border-radius: 23px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid white;
+    text-align: left;
+    padding-left: 20px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+}
+
+.Adduniversity:hover {
+    background-color: white;
+    color: black;
+}
+
+.information_button {
+    width: 470px;
+    height: 85px;
+    border-radius: 23px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid white;
+    text-align: left;
+    padding-left: 20px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+}
+
+.information_button:hover {
+    background-color: white;
+    color: black;
+}
+
+.AddSchedGo {
+    font-size: 38px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    max-width: 300px;
+}
+
+.textandbutton_adduniversity {
+    display: flex;
+    flex-direction: column;
+}
+
+.adduniversity_main {
+    margin: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button_form_school {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-top: 60px;
+}
+
+.FormAdd {
+    width: 450px;
+    height: 535px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    border-radius: 23px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin: 50px;
+
+}
+
+.input_form {
+    border-radius: 23px;
+    background-color: white;
+    color: black;
+    font-size: 18px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    width: 395px;
+    height: 60px;
+    text-align: left;
+    padding-left: 30px;
+    border: none;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+.input_form:focus {
+    outline: none;
+}
+
+.aboutuni_form {
+    font-size: 30px;
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    margin: 20px;
+}
+
+.all_input {
+    margin: 10px;
+    display: grid;
+    justify-items: center;
+}
+
+.button_for_add_univers {
+    width: 265px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+    border-radius: 23px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.button_for_add_univers:hover {
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+
+.custom-checkbox {
+    font-size: 12px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    color: white;
+}
+
+.checkbox_flex {
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.customcheckbox {
+    display: none;
+}
+  
+.custom-checkbox {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.customcheckbox:checked + .checkmark {
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+.customcheckbox:checked + .checkmark::after {
+    content: '✔';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+
+.smiley {
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    width: 157px;
+    height: 157px;
+    z-index: 10; /* Чтобы было поверх формы */
+  }
+
+.form_for_add{
+    position: relative;
+}
