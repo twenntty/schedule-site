@@ -1,0 +1,60 @@
+.LogoForDashboard {
+    width: 238px;
+    height: 50px;
+}
+
+.textInfoAccount {
+    color: white;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.headerForAuth {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.IconForLogOut {
+    width: 16px;
+    height: 16px;
+}
+
+.ButtonForExit:hover {
+    cursor: pointer;
+}
+
+.InfoAndExit {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между элементами */
+}
+
+.InfoAccount {
+    display: inline-flex; /* Подстраивает размер под контент */
+    align-items: center;
+    justify-content: center;
+    background-color: #15292C;
+    border-radius: 45px;
+    padding: 4px 16px; /* Немного увеличиваем внутренние отступы */
+    white-space: nowrap; /* Предотвращает перенос текста */
+}
+
+.ButtonForExit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;  /* Делаем квадратной */
+    height: 50px;
+    background-color: #C34A36;
+    border-radius: 50%; /* Делаем круглой */
+    cursor: pointer;
+}
+
+.IconForLogOut {
+    width: 20px;
+    height: 20px;
+}

@@ -1,12 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import HeaderForAuth from "../Widget/HeaderForAuth/HeaderForAuth";
+import "../styles/Auth.css"
+import ImgForAuth from "../assets/svg/GirlWithLaptop.svg"
+import FooterForAuth from "../Widget/FooterForAuth/FooterForAuth";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "SchedGo - Вхід"; // Устанавливаем название вкладки
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,13 +31,31 @@ const Login = () => {
 
     return (
         <div className="auth-container">
-            <h2>Вход</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleLogin}>
-                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <button type="submit">Войти</button>
-            </form>
+            <HeaderForAuth />
+                <div className="Form_For_Auth">
+                    <div className="Auth_Form">
+                        <div className="Text_Form">
+                            <h2 className="WelcomTextAuth">Ласкаво просимо!</h2>
+                            <h3 className="SadTextAuth">З поверненням, ми сумували 😿</h3>
+                        </div> 
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    <form onSubmit={handleLogin} className="Form_SignIn">
+                        <div className="InputCss">
+                            <label htmlFor="username" className="LabelCssForm">Email:</label>
+                            <input type="email" id="username" placeholder="Email" className="Form_input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        </div>
+                        <div className="InputCss">
+                            <label htmlFor="password" className="LabelCssForm">Пароль:</label>
+                            <input type="password" id="password" placeholder="Пароль" className="Form_input" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        </div>
+                        <button type="submit" className="Form_button" >Увійти до Sched</button>
+                    </form>
+                </div>
+                    <div className="ImgForAuth">
+                            <img src={ImgForAuth} alt="GirlWithLaptop" className="ImgForAuth" />
+                    </div>
+            </div>
+            <FooterForAuth />
         </div>
     );
 };

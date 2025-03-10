@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import HeaderForDashboard from "../Widget/HeaderForDashboard/HeaderForDashboard"
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        document.title = "Дашбоард | SchedGo"; // Устанавливаем название вкладки
+    }, []);
 
     useEffect(() => {
         // Загружаем данные о пользователе
@@ -31,6 +36,7 @@ const Dashboard = () => {
 
     return (
         <div>
+            <HeaderForDashboard />
             <h2>Личный кабинет</h2>
 
             {/* ✅ Вывод информации о пользователе */}
@@ -40,11 +46,6 @@ const Dashboard = () => {
                     <p><strong>Должность:</strong> {user.position}</p>
                 </div>
             )}
-
-            {/* ✅ Кнопка выхода */}
-            <button onClick={handleLogout} style={{ background: "red", color: "white", padding: "10px", border: "none", cursor: "pointer" }}>
-                Выйти
-            </button>
 
             {/* ✅ Для ADMIN - управление пользователями */}
             {user?.role === "admin" && (

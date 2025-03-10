@@ -1,0 +1,33 @@
+.backarrow_for_header { 
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    -webkit-user-drag: none;
+}
+
+.back_to_site {
+    font-size: 14px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+}
+
+.logoforauth {
+    width: 238px;
+    height: 28px;
+    -webkit-user-drag: none;
+}
+
+.BackSite {
+    display: flex
+;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.headerforauth {
+    margin: 10px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

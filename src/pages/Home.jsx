@@ -9,14 +9,17 @@ import Footer from '../Widget/Footer/Footer'
 import FormUniversity from '../Widget/FormUniversity/FormUniversity'
 
 const home = () => {
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div>
         <Header />
-        <MainContainer />
-        <DoubleContainer />
-        <SecurityContainer />
-        <AboutCompany />
-        <FormUniversity />
+        <div id="main"><MainContainer /></div>
+        <div id="double"><DoubleContainer /></div>
+        <div id="security"><SecurityContainer /></div>
+        <div id="about"><AboutCompany /></div>
+        <div id="form"><FormUniversity /></div>
         <Footer />
     </div>
   )

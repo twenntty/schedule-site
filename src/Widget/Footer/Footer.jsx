@@ -1,11 +1,14 @@
 import React from 'react'
 import "./Footer.css"
 import Logo from "../../assets/img/logo.png";
-import { Link } from "react-router-dom";
 import Inst from "../../assets/svg/Instagram.svg";
 import Smile from "../../assets/svg/smile.svg";
 
 const Footer = () => {
+    const scrollToSection = (id) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      };
+
   return (
     <footer>
         <div className="line"></div>
@@ -19,9 +22,9 @@ const Footer = () => {
             </a>
         </div>
         <nav className="navbar_footer">
-            <a href="" className='nav'>Для навчальних закладів</a>
-            <a href="" className='nav'>Безпека</a>
-            <a href="" className='nav'>Про нас</a>
+            <a onClick={() => scrollToSection("form")} className="nav">Для навчальних закладів</a>
+            <a onClick={() => scrollToSection("security")} className="nav">Безпека</a>
+            <a onClick={() => scrollToSection("about")} className="nav">Про нас</a>
         </nav>
         <div className="coopyright">
             <p className="fonts_e_ukraine">Шрифт e-Ukraine використовується відповідно до ліцензії CC BY 4.0</p>

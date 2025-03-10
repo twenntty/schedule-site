@@ -9,6 +9,8 @@ import CreateRoom from "./components/CreateRoom";
 import CreatePeriod from "./components/CreatePeriod";
 import Home from "./pages/Home";
 import Schedule from "./pages/Schedule"
+import BodyColorWrapper from "./Widget/BodyColorWrapper/BodyColorWrapper";
+
 
 const AuthRedirect = ({ children }) => {
     const navigate = useNavigate();
@@ -16,7 +18,7 @@ const AuthRedirect = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            navigate("/dashboard"); // ✅ Если токен есть, перенаправляем на /dashboard
+            navigate("/"); // ✅ Если токен есть, перенаправляем на /dashboard
         }
     }, [navigate]);
 
@@ -26,6 +28,7 @@ const AuthRedirect = ({ children }) => {
 const AppRoutes = () => {
     return (
         <Router>
+            <BodyColorWrapper>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/auth" element={<AuthRedirect><Login /></AuthRedirect>} />
@@ -37,6 +40,7 @@ const AppRoutes = () => {
                 <Route path="/periods" element={<CreatePeriod />} />
                 <Route path="/schedule" element={<Schedule />} />
             </Routes>
+            </BodyColorWrapper>
         </Router>
     );
 };

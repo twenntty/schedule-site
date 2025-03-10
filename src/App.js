@@ -9,7 +9,7 @@ const App = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            navigate("/dashboard"); // Если токен есть, сразу на dashboard
+            navigate("/");
         }
     }, [navigate]);
 
