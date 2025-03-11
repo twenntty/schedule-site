@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import LOGO from "../assets/svg/LogoForAuth.svg";
+import "../styles/Schedule.css";
 
 const Home = () => {
     const [specialties, setSpecialties] = useState([]);
     const [courses, setCourses] = useState([]);
     const [groups, setGroups] = useState([]);
     const [schedule, setSchedule] = useState([]);
-    
+
     const [selectedSpecialty, setSelectedSpecialty] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedGroup, setSelectedGroup] = useState("");
 
-    // Массив с днями недели
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
     const weekDays = [
         { id: 1, name: "Понедельник" },
         { id: 2, name: "Вторник" },
@@ -21,31 +25,32 @@ const Home = () => {
         { id: 6, name: "Суббота" },
     ];
 
-    // Функция для получения дня недели по id
     const getDayOfWeek = (dayOfWeek) => {
         const day = weekDays.find(day => day.id === dayOfWeek);
-        return day ? day.name : "Неизвестно"; // Если день не найден, возвращаем "Неизвестно"
+        return day ? day.name : "Неизвестно";
     };
 
-    // Загружаем специальности при загрузке страницы
     useEffect(() => {
         const fetchSpecialties = async () => {
+            setLoading(true);
+            setError("");
             try {
-                const response = await axios.get("/specialties");
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/specialties`);
                 setSpecialties(response.data);
             } catch (error) {
-                console.error("Ошибка загрузки специальностей:", error);
+                setError("Ошибка загрузки специальностей");
+            } finally {
+                setLoading(false);
             }
         };
         fetchSpecialties();
     }, []);
 
-    // Загружаем курсы после выбора специальности
     const handleSpecialtyChange = async (e) => {
         const specialtyId = e.target.value;
         setSelectedSpecialty(specialtyId);
-        setSelectedCourse(""); // Сбрасываем курс
-        setSelectedGroup(""); // Сбрасываем группу
+        setSelectedCourse("");
+        setSelectedGroup("");
         setGroups([]);
         setSchedule([]);
 
@@ -54,19 +59,21 @@ const Home = () => {
             return;
         }
 
+        setLoading(true);
         try {
-            const response = await axios.get(`/courses/${specialtyId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/courses/${specialtyId}`);
             setCourses(response.data);
         } catch (error) {
-            console.error("Ошибка загрузки курсов:", error);
+            setError("Ошибка загрузки курсов");
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Загружаем группы после выбора курса
     const handleCourseChange = async (e) => {
         const courseId = e.target.value;
         setSelectedCourse(courseId);
-        setSelectedGroup(""); // Сбрасываем группу
+        setSelectedGroup("");
         setSchedule([]);
 
         if (!courseId) {
@@ -74,15 +81,17 @@ const Home = () => {
             return;
         }
 
+        setLoading(true);
         try {
-            const response = await axios.get(`/groups/${courseId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/groups/${courseId}`);
             setGroups(response.data);
         } catch (error) {
-            console.error("Ошибка загрузки групп:", error);
+            setError("Ошибка загрузки групп");
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Загружаем расписание после выбора группы
     const handleGroupChange = async (e) => {
         const groupId = e.target.value;
         setSelectedGroup(groupId);
@@ -92,11 +101,14 @@ const Home = () => {
             return;
         }
 
+        setLoading(true);
         try {
-            const response = await axios.get(`/schedule/${groupId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/schedule/${groupId}`);
             setSchedule(response.data);
         } catch (error) {
-            console.error("Ошибка загрузки расписания:", error);
+            setError("Ошибка загрузки расписания");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -114,40 +126,65 @@ const Home = () => {
 
     return (
         <div>
-            <h2>Выберите параметры</h2>
+            <div className="HeaderForSchedule">
+                <div className="logoForSchedule">
+                    <img src={LOGO} alt="Logo" className="LogoImgForSchedule" />
+                </div>
+                <div className="main_header_for_schedule">
+                    <div className="navbarForSchedule">
+                        <div className="textForSchedule">
+                            <p className="ScheduleNav">Розклад занять</p>
+                            <p className="ScheduleNav">Розклад для викладачів</p>
+                        </div>
 
-            {/* Выбор специальности */}
-            <label>Специальность:</label>
-            <select value={selectedSpecialty} onChange={handleSpecialtyChange}>
-                <option value="">Выберите специальность</option>
-                {specialties.map((spec) => (
-                    <option key={spec._id} value={spec._id}>
-                        {spec.name}
-                    </option>
-                ))}
-            </select>
+                        <div className="ValueForSchedule">
+                            <select
+                                value={selectedSpecialty}
+                                onChange={handleSpecialtyChange}
+                                className="ValueUniversityInfo_Spec"
+                            >
+                                <option value="">Оберіть Спеціальність</option>
+                                {specialties.map((spec) => (
+                                    <option key={spec._id} value={spec._id}>
+                                        {spec.name}
+                                    </option>
+                                ))}
+                            </select>
 
-            {/* Выбор курса */}
-            <label>Курс:</label>
-            <select value={selectedCourse} onChange={handleCourseChange} disabled={!selectedSpecialty}>
-                <option value="">Выберите курс</option>
-                {courses.map((course) => (
-                    <option key={course._id} value={course._id}>
-                        {course.name}
-                    </option>
-                ))}
-            </select>
+                            <select
+                                value={selectedCourse}
+                                onChange={handleCourseChange}
+                                disabled={!selectedSpecialty}
+                                className="ValueUniversityInfo_Course"
+                            >
+                                <option value="">Курс</option>
+                                {courses.map((course) => (
+                                    <option key={course._id} value={course._id}>
+                                        {course.name}
+                                    </option>
+                                ))}
+                            </select>
 
-            {/* Выбор группы */}
-            <label>Группа:</label>
-            <select value={selectedGroup} onChange={handleGroupChange} disabled={!selectedCourse}>
-                <option value="">Выберите группу</option>
-                {groups.map((group) => (
-                    <option key={group._id} value={group._id}>
-                        {group.name}
-                    </option>
-                ))}
-            </select>
+                            <select
+                                value={selectedGroup}
+                                onChange={handleGroupChange}
+                                disabled={!selectedCourse}
+                                className="ValueUniversityInfo_Groups"
+                            >
+                                <option value="">Групу</option>
+                                {groups.map((group) => (
+                                    <option key={group._id} value={group._id}>
+                                        {group.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {loading && <p>Загрузка...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             <h3>Расписание:</h3>
             {schedule.length === 0 ? (
@@ -158,7 +195,7 @@ const Home = () => {
                         <li key={lesson._id}>
                             <strong>{lesson.subject} {getLessonTypeAbbreviation(lesson.lessonType)}</strong>
                             <br />
-                            <strong>{lesson.teacher}</strong> 
+                            <strong>{lesson.teacher}</strong>
                             <br />
                             {lesson.period && lesson.period.startTime} - {lesson.period && lesson.period.endTime}
                             <br />

@@ -8,7 +8,8 @@ const MembersList = () => {
         const fetchMembers = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("/users", {
+                const apiUrl = `${process.env.REACT_APP_API_URL}/users`; // Используем переменную окружения для URL
+                const response = await axios.get(apiUrl, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setMembers(response.data);

@@ -1,0 +1,83 @@
+.LogoImgForSchedule {
+    width: 238px;
+    height: 28px;
+}
+
+.HeaderForSchedule {
+    background-color: white;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_header_for_schedule {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 100px;
+}
+
+.textForSchedule {
+    display: flex;
+    gap: 37px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.ValueForSchedule {
+    display: flex;
+    gap: 37px;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.ValueUniversityInfo_Spec {
+    width: 238px;
+    height: 28px;
+    background-color: #7575756e;
+    border: none;
+    outline: none;
+    color: black;
+    border-radius: 44px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    margin: 0;
+}
+
+.ValueUniversityInfo_Course {
+    width: 100px;
+    height: 28px;
+    background-color: #7575756e;
+    border: none;
+    outline: none;
+    color: black;
+    border-radius: 44px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+}
+
+.ValueUniversityInfo_Groups {
+    width: 100px;
+    height: 28px;
+    background-color: #7575756e;
+    border: none;
+    outline: none;
+    color: black;
+    border-radius: 44px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+}

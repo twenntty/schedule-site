@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import HeaderForDashboard from "../Widget/HeaderForDashboard/HeaderForDashboard"
+import HeaderForDashboard from "../Widget/HeaderForDashboard/HeaderForDashboard";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -16,7 +16,8 @@ const Dashboard = () => {
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("/auth/me", {
+                const apiUrl = `${process.env.REACT_APP_API_URL}/auth/me`; // Используем переменную окружения для URL
+                const response = await axios.get(apiUrl, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setUser(response.data);
@@ -27,12 +28,6 @@ const Dashboard = () => {
 
         fetchUserData();
     }, []); // 🔹 Закрыли useEffect!
-
-    // ✅ Функция выхода
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/");
-    };
 
     return (
         <div>
@@ -88,7 +83,6 @@ const Dashboard = () => {
                     </Link>
                 </>
             )}
-
         </div>
     );
 };

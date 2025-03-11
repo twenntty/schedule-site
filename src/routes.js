@@ -18,7 +18,7 @@ const AuthRedirect = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            navigate("/"); // ✅ Если токен есть, перенаправляем на /dashboard
+            navigate("/dashboard"); // ✅ Если токен есть, перенаправляем на /dashboard
         }
     }, [navigate]);
 

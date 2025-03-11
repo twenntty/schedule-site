@@ -23,6 +23,8 @@ const CreateLesson = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);  // Для состояния загрузки
 
+    const API_URL = process.env.REACT_APP_API_URL;
+
     // Загрузка данных
     useEffect(() => {
         const fetchData = async () => {
@@ -35,19 +37,19 @@ const CreateLesson = () => {
                 }
 
                 // Загрузка специальностей
-                const specialtiesResponse = await axios.get("/specialties");
+                const specialtiesResponse = await axios.get(`${API_URL}/specialties`);
                 setSpecialties(specialtiesResponse.data);
 
                 // Загрузка периодов
-                const periodsResponse = await axios.get("/api/periods");
+                const periodsResponse = await axios.get(`${API_URL}/api/periods`);
                 setPeriods(periodsResponse.data);
 
                 // Загрузка дней недели
-                const weekdaysResponse = await axios.get("/api/weekdays");
+                const weekdaysResponse = await axios.get(`${API_URL}/api/weekdays`);
                 setWeekDays(weekdaysResponse.data);
 
                 // Загрузка кабинетов
-                const classroomsResponse = await axios.get("/api/rooms", {
+                const classroomsResponse = await axios.get(`${API_URL}/api/rooms`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setClassrooms(classroomsResponse.data);
@@ -60,14 +62,14 @@ const CreateLesson = () => {
         };
 
         fetchData();
-    }, []);
+    }, [API_URL]);
 
     // Загрузка курсов и групп по специальности
     useEffect(() => {
         const fetchCourses = async () => {
             if (!selectedSpecialty) return;
             try {
-                const response = await axios.get(`/courses/${selectedSpecialty}`);
+                const response = await axios.get(`${API_URL}/courses/${selectedSpecialty}`);
                 setCourses(response.data);
             } catch (error) {
                 console.error("Ошибка загрузки курсов:", error);
@@ -76,13 +78,13 @@ const CreateLesson = () => {
         };
 
         fetchCourses();
-    }, [selectedSpecialty]);
+    }, [selectedSpecialty, API_URL]);
 
     useEffect(() => {
         const fetchGroups = async () => {
             if (!selectedCourse) return;  // Прекращаем запрос, если курс не выбран
             try {
-                const response = await axios.get(`/groups/${selectedCourse}`);
+                const response = await axios.get(`${API_URL}/groups/${selectedCourse}`);
                 setGroups(response.data);
             } catch (error) {
                 // Логирование полной ошибки
@@ -92,7 +94,7 @@ const CreateLesson = () => {
         };
     
         fetchGroups();
-    }, [selectedCourse]);
+    }, [selectedCourse, API_URL]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -120,7 +122,7 @@ const CreateLesson = () => {
             setLoading(true);  // Начало загрузки
     
             const response = await axios.post(
-                "/api/schedule",
+                `${API_URL}/api/schedule`,
                 formData,
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -145,7 +147,6 @@ const CreateLesson = () => {
             setLoading(false);  // Конец загрузки
         }
     };
-    
 
     return (
         <div>
