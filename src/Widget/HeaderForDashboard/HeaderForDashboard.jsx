@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";  // Импортируем useNavigate
+import { useNavigate } from "react-router-dom";
 import AdminLogo from "../../assets/svg/logoForAdmin.svg"
 import UniLogo from "../../assets/svg/logoforuni.svg"
 import Logo from "../../assets/svg/LogoForAuth.svg"
@@ -15,28 +15,28 @@ const roleLogos = {
 
 const Header = () => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate(); // Инициализируем хук navigate
+  const navigate = useNavigate(); 
   
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        console.warn("Токен отсутствует, пользователь не авторизован");
+        console.warn("Токен відсутній, користувач не авторизований");
         return;
       }
 
       try {
-        const response = await axios.get("/auth/me", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         setUser(response.data);
       } catch (error) {
-        console.error("Ошибка загрузки данных пользователя:", error);
+        console.error("Помилка завантаження даних користувача:", error);
         if (error.response && error.response.status === 401) {
           localStorage.removeItem("token");
-          window.location.href = "/auth"; // Если токен неверный, направляем на страницу авторизации
+          window.location.href = "/auth";
         }
       }
     };
@@ -45,12 +45,12 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Удаляем токен
-    navigate("/auth"); // Перенаправляем на страницу авторизации
+    localStorage.removeItem("token");
+    navigate("/auth");
   };
 
   if (!user) {
-    return <div className="p-4 text-white">Загрузка...</div>;
+    return <div className="p-4 text-white">Завантаження...</div>;
   }
 
   return (
@@ -61,7 +61,7 @@ const Header = () => {
           <p className="textInfoAccount">{user.lastName} {user.firstName}</p>
         </div>
         <div onClick={handleLogout} className="ButtonForExit">
-          <img src={LogOut} alt="Выход" className="IconForLogOut" />
+          <img src={LogOut} alt="Вихід" className="IconForLogOut" />
         </div>
       </div>
     </header>
