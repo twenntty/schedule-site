@@ -9,6 +9,8 @@ const BodyColorWrapper = ({ children }) => {
       document.body.style.backgroundColor = "white";
     } else if (location.pathname.startsWith("/dashboard")) {
       document.body.style.backgroundColor = "white"; // Цвет фона для дашборда
+    } else if (location.pathname.startsWith("/schedule")) {
+      document.body.style.backgroundColor = "white"; // Цвет фона для дашборда
   } else {
       document.body.style.backgroundColor = "#15292C";
     }

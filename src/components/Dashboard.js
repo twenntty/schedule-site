@@ -13,6 +13,8 @@ const Auditoriums = lazy(() => import("./CreateRoom"));
 const Speciality = lazy(() => import("./CreateSpeciality"));
 const ManageCourses = lazy(() => import("./СreateCourse"));
 const ManageGroups = lazy(() => import("./ManageGroups"));
+const ManageStudentsSchedule = lazy(() => import("../pages/StudentSchedule"));
+const ManageTeachersSchedule = lazy(() => import("../pages/TeacherSchedule"));
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -59,6 +61,11 @@ const Dashboard = () => {
                 return <ManageCourses />;
             case "groups":
                 return <ManageGroups />;
+            case "schedule-groups":
+                return <ManageStudentsSchedule />;  
+            case "schedule-teachers":
+                return <ManageTeachersSchedule />;  
+                
             default:
                 return <Main user={user} />;
         }

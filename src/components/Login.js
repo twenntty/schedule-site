@@ -6,7 +6,7 @@ import "../styles/Auth.css";
 import ImgForAuth from "../assets/svg/GirlWithLaptop.svg";
 import FooterForAuth from "../Widget/FooterForAuth/FooterForAuth";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Login = () => {
     const [email, setEmail] = useState("");

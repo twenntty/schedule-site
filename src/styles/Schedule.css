@@ -81,3 +81,61 @@
     font-family: 'e-Ukraine', sans-serif;
     font-weight: normal;
 }
+
+.Schedule_Component {
+    margin: 50px;
+}
+
+.ScheduleNav {
+    cursor: pointer; /* Курсор в виде руки */
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    margin-right: 10px;
+    display: inline-block;
+    
+    /* Стандартные стили */
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .ScheduleNav:hover {
+    background-color: #e0e0e0; /* Эффект при наведении */
+  }
+  
+  .ScheduleNav.active {
+    background-color: #2196F3; /* Цвет активной вкладки */
+    color: white;
+    cursor: default; /* Обычный курсор для активной вкладки */
+  }
+
+  .ScheduleNav {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ScheduleNav::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+  }
+  
+  .ScheduleNav.active::after {
+    background-color: #ffeb3b;
+  }
+
+  .ScheduleNav {
+    border: none;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .ScheduleNav.active {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+  }
