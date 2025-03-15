@@ -1,0 +1,10 @@
+.specialties-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.Text_for_Periods {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,88 +1,86 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import HeaderForDashboard from "../Widget/HeaderForDashboard/HeaderForDashboard";
+import Sidebar from "../components/Sidebar";
+import "../styles/Dashboard.css";
+
+const Main = lazy(() => import("./MainDashboard/MainDashboard"));
+const Teachers = lazy(() => import("./CreateTeachers"));
+const AddPair = lazy(() => import("./CreateLesson"));
+const TimePairs = lazy(() => import("./CreatePeriod"));
+const Auditoriums = lazy(() => import("./CreateRoom"));
+const Speciality = lazy(() => import("./CreateSpeciality"));
+const ManageCourses = lazy(() => import("./СreateCourse"));
+const ManageGroups = lazy(() => import("./ManageGroups"));
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [activePage, setActivePage] = useState("main");
 
     useEffect(() => {
-        document.title = "Дашбоард | SchedGo"; // Устанавливаем название вкладки
+        document.title = "Дашбоард | SchedGo";
     }, []);
 
     useEffect(() => {
-        // Загружаем данные о пользователе
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const apiUrl = `${process.env.REACT_APP_API_URL}/auth/me`; // Используем переменную окружения для URL
+                if (!token) navigate("/auth");
+                
+                const apiUrl = `${process.env.REACT_APP_API_URL}/auth/me`;
                 const response = await axios.get(apiUrl, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setUser(response.data);
             } catch (error) {
-                console.error("Ошибка загрузки данных пользователя:", error);
+                console.error("Ошибка загрузки данных:", error);
+                navigate("/auth");
             }
         };
 
         fetchUserData();
-    }, []); // 🔹 Закрыли useEffect!
+    }, [navigate]);
+
+    const renderContent = () => {
+        switch(activePage) {
+            case "teachers":
+                return <Teachers />;
+            case "add-pair":
+                return <AddPair />;
+            case "auditoriums":
+                return <Auditoriums />;
+            case "time-pairs":
+                return <TimePairs />;
+            case "specialties":
+                return <Speciality />;
+            case "courses":
+                return <ManageCourses />;
+            case "groups":
+                return <ManageGroups />;
+            default:
+                return <Main user={user} />;
+        }
+    };
+
+    if (!user) return <div className="loading-screen">Загрузка данных пользователя...</div>;
 
     return (
-        <div>
-            <HeaderForDashboard />
-            <h2>Личный кабинет</h2>
-
-            {/* ✅ Вывод информации о пользователе */}
-            {user && (
-                <div>
-                    <p><strong>ПІБ:</strong> {user.firstName} {user.lastName}</p>
-                    <p><strong>Должность:</strong> {user.position}</p>
+        <div className="Dashboard">
+            <HeaderForDashboard user={user} />
+            <div className="DashboardFlex">
+                <Sidebar 
+                    role={user.role} 
+                    activePage={activePage}
+                    setActivePage={setActivePage}
+                />
+                <div className="MainDashboard">
+                    <Suspense fallback={<div className="loading-module">Загрузка модуля...</div>}>
+                        {renderContent()}
+                    </Suspense>
                 </div>
-            )}
-
-            {/* ✅ Для ADMIN - управление пользователями */}
-            {user?.role === "admin" && (
-                <>
-                    <h2>Управление пользователями</h2>
-                    <Link to="/dashboard/register">
-                        <button>➕ Зарегистрировать нового пользователя</button>
-                    </Link>
-                    <Link to="/dashboard/members">
-                        <button>👥 Просмотреть всех пользователей</button>
-                    </Link>
-                </>
-            )}
-
-            {/* ✅ Для INSTITUTION - создание пар */}
-            {user?.role === "institution" && (
-                <>
-                    <h2>Создание пары</h2>
-                    <Link to="/dashboard/createlesson">
-                        <button>📚 Добавить новую пару</button>
-                    </Link>
-                </>
-            )}
-
-            {/* ✅ Для ADMIN и INSTITUTION - управление кабинетами */}
-            {(user?.role === "admin" || user?.role === "institution") && (
-                <>
-                    <h2>Управление кабинетами</h2>
-                    <Link to="/inst/rooms">
-                        <button>🏫 Кабинеты</button>
-                    </Link>
-                </>
-            )}
-
-            {(user?.role === "admin" || user?.role === "institution") && (
-                <>
-                    <h2>Управление расписанием</h2>
-                    <Link to="/periods">
-                        <button>⏰ Промежутки пар</button>
-                    </Link>
-                </>
-            )}
+            </div>
         </div>
     );
 };

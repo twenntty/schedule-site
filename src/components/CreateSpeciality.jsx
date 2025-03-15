@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/CreateRoom.css";
+import "../styles/ManageSpecialties.css";
 import Delete from "../assets/svg/Remove.svg";
-import Edit from "../assets/svg/Edit.svg";
 import Search from "../assets/svg/Search.svg";
 
-const CreateRoom = () => {
+const ManageSpecialties = () => {
     const [name, setName] = useState("");
-    const [rooms, setRooms] = useState([]);
+    const [specialties, setSpecialties] = useState([]);
     const [search, setSearch] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const fetchRooms = async () => {
+        const fetchSpecialties = async () => {
             setLoading(true);
             try {
                 const token = localStorage.getItem("token");
                 const apiUrl = process.env.REACT_APP_API_URL;
-                const response = await axios.get(`${apiUrl}/api/rooms`, {
+                const response = await axios.get(`${apiUrl}/specialties`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setRooms(response.data);
+                setSpecialties(response.data);
             } catch (error) {
-                console.error("Не можу зʼєднатися з базою аудиторій", error);
-                setError("Не можу зʼєднатися з базою аудиторій. Спробуйте пізніше.");
+                console.error("Ошибка загрузки специальностей", error);
+                setError("Не удалось загрузить список специальностей");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchRooms();
+        fetchSpecialties();
     }, []);
 
-    const handleCreateRoom = async () => {
+    const handleCreateSpecialty = async (e) => {
+        e.preventDefault();
         if (!name.trim()) return;
         setLoading(true);
         setError("");
@@ -43,35 +43,34 @@ const CreateRoom = () => {
             const token = localStorage.getItem("token");
             const apiUrl = process.env.REACT_APP_API_URL;
             const response = await axios.post(
-                `${apiUrl}/api/rooms`,
+                `${apiUrl}/specialties`,
                 { name },
-                { headers: { Authorization: `Bearer ${token}` } }
+                { headers: { Authorization: `Bearer ${token}` }}
             );
     
-            setRooms([...rooms, response.data]);
+            setSpecialties([...specialties, response.data]);
             setName("");
         } catch (error) {
-            console.error("Помилка при створенні аудиторії:", error);
-            setError("Помилка при створенні аудиторії. Спробуйте пізніше.");
+            console.error("Ошибка создания специальности:", error);
+            setError("Ошибка при создании специальности");
         } finally {
             setLoading(false);
         }
     };
-    
 
-    const handleDeleteRoom = async (roomId) => {
+    const handleDeleteSpecialty = async (specialtyId) => {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
             const apiUrl = process.env.REACT_APP_API_URL;
-            await axios.delete(`${apiUrl}/api/rooms/${roomId}`, {
+            await axios.delete(`${apiUrl}/specialties/${specialtyId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            setRooms(rooms.filter(room => room._id !== roomId));
+            setSpecialties(specialties.filter(spec => spec._id !== specialtyId));
         } catch (error) {
-            console.error("Помилка при видаленні аудиторії:", error);
-            setError("Помилка при видаленні аудиторії. Спробуйте пізніше.");
+            console.error("Ошибка удаления специальности:", error);
+            setError("Ошибка при удалении специальности");
         } finally {
             setLoading(false);
         }
@@ -81,22 +80,21 @@ const CreateRoom = () => {
         setSearchQuery(search);
     };
 
-    const filteredRooms = rooms.filter(room => 
-        room.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredSpecialties = specialties.filter(spec => 
+        spec.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div className="MainCabinets">
             <div className="CabinetsTextDashboard">
-                <p className="text">Аудиторії</p>
+                <p className="text">Спеціальності</p>
             </div>
             
             <div className="ContainerForAddAndSearch">
-
                 <div className="SearchContainer">
                     <input
                         type="text"
-                        placeholder="Пошук аудиторії"
+                        placeholder="Пошук спеціальностей"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="InputSerchCabinet"
@@ -106,31 +104,35 @@ const CreateRoom = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleCreateRoom} className="ContainerForAdd">
+                <form onSubmit={handleCreateSpecialty} className="ContainerForAdd">
                     <input
                         type="text"
-                        placeholder="Номер аудиторії"
+                        placeholder="Назва спеціальності"
                         value={name}
                         className="InputForAddCabinets"
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
-                    <div className="SubmitCabinets" onClick={handleCreateRoom}>Додати аудиторію</div>
+                    <button type="submit" className="SubmitCabinets">
+                        Додати спеціальність
+                    </button>
                 </form>
             </div>
 
+            {error && <p className="error-message">{error}</p>}
+
             {loading ? (
-                <p>Загрузка...</p>
-            ) : filteredRooms.length > 0 ? (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-                    {filteredRooms.map((room) => (
+                <p>Завантаження...</p>
+            ) : filteredSpecialties.length > 0 ? (
+                <div className="specialties-list">
+                    {filteredSpecialties.map(spec => (
                         <div 
-                            key={room._id} 
+                            key={spec._id} 
                             className="Cabinet"
                         >
-                            <span>{room.name}</span>
-                            <div className="ButtonForCabinets">
-                                <div className="DeleteRooms" onClick={() => handleDeleteRoom(room._id)} >
+                            <span>{spec.name}</span>
+                            <div className="ButtonForSpeciality">
+                                <div className="DeleteRooms" onClick={() => handleDeleteSpecialty(spec._id)} >
                                     <img src={Delete} alt="Remove" />
                                 </div>
                             </div>
@@ -138,10 +140,10 @@ const CreateRoom = () => {
                     ))}
                 </div>
             ) : (
-                <p>В базі не існує кабінетів.</p>
+                <p>В базі немає спеціальностей</p>
             )}
         </div>
     );
 };
 
-export default CreateRoom;
+export default ManageSpecialties;

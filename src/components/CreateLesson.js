@@ -1,230 +1,290 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import "../styles/CreateLesson.css"
 
 const CreateLesson = () => {
-    const navigate = useNavigate();
-    const [specialties, setSpecialties] = useState([]);
-    const [courses, setCourses] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [periods, setPeriods] = useState([]);
-    const [classrooms, setClassrooms] = useState([]);
-    const [weekDays, setWeekDays] = useState([]);
+  const navigate = useNavigate();
+  const [specialties, setSpecialties] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+  const [date, setDate] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState("");
+  const [selectedWeekDayId, setSelectedWeekDayId] = useState("");
+  const [lessonType, setLessonType] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [subject, setSubject] = useState("");
+  const [selectedClassroom, setSelectedClassroom] = useState("");
+  const [error, setError] = useState("");
+  const [periods, setPeriods] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const formRef = useRef();
 
-    const [selectedSpecialty, setSelectedSpecialty] = useState("");
-    const [selectedCourse, setSelectedCourse] = useState("");
-    const [selectedGroup, setSelectedGroup] = useState("");
-    const [subject, setSubject] = useState("");
-    const [teacher, setTeacher] = useState("");
-    const [lessonType, setLessonType] = useState("");
-    const [selectedPeriod, setSelectedPeriod] = useState("");
-    const [selectedClassroom, setSelectedClassroom] = useState("");
-    const [selectedWeekDay, setSelectedWeekDay] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);  // Для состояния загрузки
+  const API_URL = process.env.REACT_APP_API_URL;
 
-    const API_URL = process.env.REACT_APP_API_URL;
-
-    // Загрузка данных
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);  // Начало загрузки
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    setError("Токен отсутствует. Пожалуйста, войдите в систему.");
-                    return;
-                }
-
-                // Загрузка специальностей
-                const specialtiesResponse = await axios.get(`${API_URL}/specialties`);
-                setSpecialties(specialtiesResponse.data);
-
-                // Загрузка периодов
-                const periodsResponse = await axios.get(`${API_URL}/api/periods`);
-                setPeriods(periodsResponse.data);
-
-                // Загрузка дней недели
-                const weekdaysResponse = await axios.get(`${API_URL}/api/weekdays`);
-                setWeekDays(weekdaysResponse.data);
-
-                // Загрузка кабинетов
-                const classroomsResponse = await axios.get(`${API_URL}/api/rooms`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setClassrooms(classroomsResponse.data);
-            } catch (error) {
-                console.error("Ошибка загрузки данных:", error);
-                setError("Ошибка загрузки данных");
-            } finally {
-                setLoading(false);  // Конец загрузки
-            }
-        };
-
-        fetchData();
-    }, [API_URL]);
-
-    // Загрузка курсов и групп по специальности
-    useEffect(() => {
-        const fetchCourses = async () => {
-            if (!selectedSpecialty) return;
-            try {
-                const response = await axios.get(`${API_URL}/courses/${selectedSpecialty}`);
-                setCourses(response.data);
-            } catch (error) {
-                console.error("Ошибка загрузки курсов:", error);
-                setError("Ошибка загрузки курсов");
-            }
-        };
-
-        fetchCourses();
-    }, [selectedSpecialty, API_URL]);
-
-    useEffect(() => {
-        const fetchGroups = async () => {
-            if (!selectedCourse) return;  // Прекращаем запрос, если курс не выбран
-            try {
-                const response = await axios.get(`${API_URL}/groups/${selectedCourse}`);
-                setGroups(response.data);
-            } catch (error) {
-                // Логирование полной ошибки
-                console.error("Ошибка загрузки групп:", error.response || error);
-                setError(`Ошибка загрузки групп: ${error.response ? error.response.data : error.message}`);
-            }
-        };
-    
-        fetchGroups();
-    }, [selectedCourse, API_URL]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        // Логируем все данные перед отправкой
-        const formData = {
-            subject,
-            teacher,
-            lessonType,
-            period: selectedPeriod,
-            group: selectedGroup,
-            room: selectedClassroom,  // правильное имя поля
-            dayOfWeek: Number(selectedWeekDay),  // преобразуем dayOfWeek в число
-        };
-    
-        console.log('Отправляемые данные:', formData);  // Логируем данные
-    
-        if (!selectedWeekDay || !selectedClassroom || !subject || !teacher || !lessonType || !selectedPeriod || !selectedGroup) {
-            setError("Пожалуйста, заполните все поля!");
-            return;
+  // Загрузка начальных данных (специальности, преподаватели, кабинеты, периоды)
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Токен не найден, выполните вход.");
+          console.error("Токен не найден");
+          setLoading(false);
+          return;
         }
-    
-        try {
-            const token = localStorage.getItem("token");
-            setLoading(true);  // Начало загрузки
-    
-            const response = await axios.post(
-                `${API_URL}/api/schedule`,
-                formData,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-    
-            console.log('Ответ от сервера:', response.data); // Логируем ответ сервера
-    
-            alert("Пара успешно добавлена!");
-            navigate("/dashboard");
-        } catch (error) {
-            console.error("Ошибка при добавлении пары:", error);
-    
-            // Логируем подробности ошибки
-            if (error.response) {
-                console.error("Ответ сервера:", error.response.data);
-                setError(error.response.data.message || "Ошибка при добавлении пары");
-            }
-    
-            alert("Ошибка при добавлении пары");
-        } finally {
-            setLoading(false);  // Конец загрузки
-        }
+
+        const [specialtiesResponse, teachersResponse, classroomsResponse, periodsResponse] = await Promise.all([
+          axios.get(`${API_URL}/specialties`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/teachers`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/api/rooms`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/api/periods`),
+        ]);
+
+        setSpecialties(specialtiesResponse.data);
+        setTeachers(teachersResponse.data);
+        setClassrooms(classroomsResponse.data);
+        setPeriods(periodsResponse.data);
+      } catch (error) {
+        console.error("Ошибка загрузки данных:", error);
+        setError("Ошибка загрузки данных");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return (
-        <div>
-            <h2>Добавить новую пару</h2>
-            
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            {loading && <div>Загрузка...</div>}  {/* Показ сообщения о загрузке */}
+    fetchData();
+  }, [API_URL]);
 
-            <form onSubmit={handleSubmit}>
-                <label>Специальность:</label>
-                <select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} required>
-                    <option value="">Выберите специальность</option>
-                    {specialties.map((spec) => (
-                        <option key={spec._id} value={spec._id}>{spec.name}</option>
-                    ))}
-                </select>
+  // Загрузка курсов при выборе специальности
+  useEffect(() => {
+    if (!selectedSpecialty) return;
 
-                <label>Курс:</label>
-                <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)} required disabled={!selectedSpecialty}>
-                    <option value="">Выберите курс</option>
-                    {courses.map((course) => (
-                        <option key={course._id} value={course._id}>{course.name}</option>
-                    ))}
-                </select>
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${API_URL}/courses/${selectedSpecialty}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCourses(response.data);
+      } catch (error) {
+        console.error("Ошибка загрузки курсов:", error);
+        setError("Ошибка загрузки курсов");
+      }
+    };
 
-                <label>Группа:</label>
-                <select value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)} required disabled={!selectedCourse}>
-                    <option value="">Выберите группу</option>
-                    {groups.map((group) => (
-                        <option key={group._id} value={group._id}>{group.name}</option>
-                    ))}
-                </select>
+    fetchCourses();
+  }, [selectedSpecialty, API_URL]);
 
-                <label>День недели:</label>
-                <select value={selectedWeekDay} onChange={(e) => setSelectedWeekDay(e.target.value)} required>
-                    <option value="">Выберите день недели</option>
-                    {weekDays.map((day) => (
-                        <option key={day.id} value={day.id}>{day.name}</option>
-                    ))}
-                </select>
+  // Загрузка групп при выборе курса
+  useEffect(() => {
+    if (!selectedCourse) return;
 
-                <label>Название предмета:</label>
-                <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+    const fetchGroups = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${API_URL}/groups/${selectedCourse}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setGroups(response.data);
+      } catch (error) {
+        console.error("Ошибка загрузки групп:", error);
+        setError("Ошибка загрузки групп");
+      }
+    };
 
-                <label>Преподаватель:</label>
-                <input type="text" value={teacher} onChange={(e) => setTeacher(e.target.value)} required />
+    fetchGroups();
+  }, [selectedCourse, API_URL]);
 
-                <label>Тип пары:</label>
-                <select value={lessonType} onChange={(e) => setLessonType(e.target.value)} required>
-                    <option value="">Выберите тип пары</option>
-                    <option value="Лекция">Лекция</option>
-                    <option value="Практика">Практика</option>
-                    <option value="Лабораторная">Лабораторная</option>
-                    <option value="Экзамен">Экзамен</option>
-                    <option value="Учебная практика">Учебная практика</option>
-                    <option value="Выездная практика">Выездная практика</option>
-                </select>
+  // Определение дня недели по выбранной дате
+  useEffect(() => {
+    if (!date) return;
 
-                <label>Кабинет:</label>
-                <select value={selectedClassroom} onChange={(e) => setSelectedClassroom(e.target.value)} required>
-                    <option value="">Выберите кабинет</option>
-                    {classrooms.map((room) => (
-                        <option key={room._id} value={room._id}>{room.name}</option>
-                    ))}
-                </select>
+    const isValidDate = moment(date, "YYYY-MM-DD", true).isValid();
+    if (!isValidDate) {
+      console.error("Некорректный формат даты");
+      return;
+    }
 
-                <label>Период:</label>
-                <select value={selectedPeriod} onChange={(e) => setSelectedPeriod(e.target.value)} required>
-                    <option value="">Выберите период</option>
-                    {periods.map((period) => (
-                        <option key={period._id} value={period._id}>{period.name}</option>
-                    ))}
-                </select>
+    const fetchWeekDay = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${API_URL}/api/weekday`, {
+          params: { date },
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setSelectedWeekDayId(response.data.weekDayId);
+      } catch (error) {
+        console.error("Ошибка при получении дня недели:", error);
+        setError("Ошибка при получении дня недели");
+      }
+    };
 
-                <button type="submit" disabled={loading}>Добавить пару</button>
-            </form>
+    fetchWeekDay();
+  }, [date, API_URL]);
+
+  // Обработка отправки формы
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Токен не найден, выполните вход.");
+      return;
+    }
+
+    // Проверка на заполнение обязательных полей
+    if (!selectedCourse || !selectedSpecialty || !selectedGroup || !selectedTeacher || !subject || !lessonType || !selectedPeriod || !selectedClassroom || !date) {
+      setError("Пожалуйста, заполните все обязательные поля.");
+      return;
+    }
+
+    // Подготовка данных для отправки
+    const lessonData = {
+      subject,
+      teacher: selectedTeacher,
+      period: selectedPeriod,
+      lessonType,
+      group: selectedGroup,
+      room: selectedClassroom,
+      dayOfWeek: parseInt(selectedWeekDayId),
+      date,
+      specialty: selectedSpecialty,
+      course: selectedCourse,
+    };
+
+    console.log("Отправляемые данные:", lessonData);
+
+    try {
+      const response = await axios.post(`${API_URL}/api/schedule`, lessonData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("Успех:", response.data);
+      navigate("/dashboard"); // Перенаправление после успешного добавления
+    } catch (error) {
+      console.error("Ошибка при добавлении пары:", error);
+      setError("Ошибка при добавлении пары");
+    }
+  };
+
+  return (
+    <div className="MainSchedules">
+      <div className="ScheduleTextDashboard">
+                <p className="text">Додати пару</p>
+            </div>
+      {loading && <div>Загрузка...</div>}
+
+      <form onSubmit={handleSubmit} ref={formRef}>
+
+      <div className="InputOneForSchedule">
+          <select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} required className="InputSchedule">
+            <option value="">Оберіть спеціальність</option>
+            {specialties.map((spec) => (
+              <option key={spec._id} value={spec._id}>
+                {spec.name}
+              </option>
+            ))}
+          </select>
+
+          <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)} required className="InputSchedule">
+            <option value="">Оберіть курс</option>
+            {courses.map((course) => (
+              <option key={course._id} value={course._id}>
+                {course.name}
+              </option>
+            ))}
+          </select>
+
+          <select value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)} required className="InputSchedule">
+            <option value="">Оберіть групу</option>
+            {groups.map((group) => (
+              <option key={group._id} value={group._id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
         </div>
-    );
+        
+        <div className="InputTwoForSchedule">
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required className="InputSchedule" />
+
+        <input
+          type="text"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          placeholder="Назва предмету"
+          required
+          className="InputSerchCabinet"
+        />
+        </div>
+        
+        <div className="InputThreeForSchedule">
+        <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required className="InputSchedule">
+          <option value="">Оберіть викладача</option>
+          {teachers.map((teacher) => (
+            <option key={teacher._id} value={teacher._id}>
+              {teacher.fullName}
+            </option>
+          ))}
+        </select>
+
+        <select value={lessonType} onChange={(e) => setLessonType(e.target.value)} required className="InputSchedule">
+          <option value="">Оберіть тип пари</option>
+          <option value="Практика">Практика</option>
+          <option value="Лекция">Лекція</option>
+          <option value="Лабораторная">Лабораторна</option>
+          <option value="Экзамен">Іспит</option>
+          <option value="Учебная практика">Навчальна практика</option>
+          <option value="Выездная практика">Виїздна практика</option>
+        </select>
+        </div>
+
+        <div className="InputFourForSchedule">
+
+        <select value={selectedClassroom} onChange={(e) => setSelectedClassroom(e.target.value)} required className="InputSchedule">
+          <option value="">Оберіть кабінет</option>
+          {classrooms.map((classroom) => (
+            <option key={classroom._id} value={classroom._id}>
+              {classroom.name}
+            </option>
+          ))}
+        </select>
+
+        <select value={selectedPeriod} onChange={(e) => setSelectedPeriod(e.target.value)} required className="InputSchedule">
+          <option value="">Тривалість пари</option>
+          {periods.map((period) => (
+            <option key={period._id} value={period._id}>
+              {period.name}
+            </option>
+          ))}
+        </select>
+
+          <div 
+          className="buttonForScheduleAdd"
+          onClick={() => !loading && formRef.current.requestSubmit()}
+          role="button"
+          tabIndex={0}
+          onKeyPress={(e) => !loading && e.key === 'Enter' && formRef.current.requestSubmit()}
+        >
+          Додати
+        </div>
+
+        </div>
+
+        
+      </form>
+    </div>
+  );
 };
 
 export default CreateLesson;

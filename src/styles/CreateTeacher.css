@@ -1,0 +1,33 @@
+.ContainerForAddTeachers {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+
+.ContainerForAddAndSerchTeachers {
+    display: flex;
+    flex-direction: column;
+}
+
+.SearchContainerTeachers {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.teacher-list{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.Teachers-FullName {
+    display: flex;
+    flex-direction: column;
+}
+
+.Teachers-Name {
+    font-size: 21px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 500;
+    margin: 0;
+}

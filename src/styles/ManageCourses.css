@@ -1,0 +1,39 @@
+.courses-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.text_For_Course {
+    display: flex;
+    flex-direction: column;
+    max-width: 100px;
+}
+
+.ButtonForCourse {
+    margin-left: 20px;
+}
+
+.Course_Name {
+    font-size: 14px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.Course_id {
+    font-size: 14px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 200;
+}
+
+.ContainerForAddAndSearchCourse {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.SearchContainerCourse {
+    margin-bottom: 30px;
+    display: flex;
+}

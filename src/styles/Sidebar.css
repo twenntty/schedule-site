@@ -1,0 +1,35 @@
+.SidebarForDashboard {
+    background-color: #E3E3E3;
+    padding: 20px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    border-radius: 19px;
+}
+
+.ItemMenu {
+    background-color: #FFFFFF;
+    padding: 20px 20px;
+    cursor: pointer;
+    list-style: none;
+    margin-bottom: 5px;
+    border-radius: 13px;
+    width: 240px;
+    font-size: 14px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 300;
+    transition: background-color 0.3s ease;
+}
+
+.ItemMenu:hover {
+    background-color: #15292C;
+    color: white;
+}
+
+.ItemMenu.active {
+    background: #15292C;
+    color: white;
+}

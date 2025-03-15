@@ -1,0 +1,35 @@
+.Groups_course {
+    font-size: 14px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 200;
+    margin-bottom: 10px;
+}
+
+.SearchContainerGroups {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.gropus-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.text_For_Groups {
+    display: flex;
+    flex-direction: column;
+}
+
+.Groups_Name {
+    max-width: 100px;
+}
+
+.ContainerForAddGroups {
+    margin-bottom: 20px;
+}
+
+.ContainerForAddAndSearchGroups {
+    display: flex;
+    flex-direction: column;
+}

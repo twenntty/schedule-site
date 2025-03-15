@@ -1,0 +1,12 @@
+.specialties-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ButtonForSpeciality {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-left: 20px;
+}
