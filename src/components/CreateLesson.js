@@ -24,6 +24,7 @@ const CreateLesson = () => {
   const [error, setError] = useState("");
   const [periods, setPeriods] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState("");
   const formRef = useRef();
 
   const API_URL = process.env.REACT_APP_API_URL;
@@ -163,14 +164,13 @@ const CreateLesson = () => {
     console.log("Отправляемые данные:", lessonData);
 
     try {
-      const response = await axios.post(`${API_URL}/api/schedule`, lessonData, {
+      await axios.post(`${API_URL}/api/schedule`, lessonData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log("Успех:", response.data);
-      navigate("/dashboard"); // Перенаправление после успешного добавления
+      setNotification(`Пара створена для групи ${groups.find(g => g._id === selectedGroup)?.name || ""}`);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Ошибка при добавлении пары:", error);
       setError("Ошибка при добавлении пары");
@@ -241,11 +241,11 @@ const CreateLesson = () => {
         <select value={lessonType} onChange={(e) => setLessonType(e.target.value)} required className="InputSchedule">
           <option value="">Оберіть тип пари</option>
           <option value="Практика">Практика</option>
-          <option value="Лекция">Лекція</option>
-          <option value="Лабораторная">Лабораторна</option>
-          <option value="Экзамен">Іспит</option>
-          <option value="Учебная практика">Навчальна практика</option>
-          <option value="Выездная практика">Виїздна практика</option>
+          <option value="Лекція">Лекція</option> 
+          <option value="Лабораторна">Лабораторна</option>
+          <option value="Іспит">Іспит</option>
+          <option value="Навчальна практика">Навчальна практика</option>
+          <option value="Виїзна практика">Виїздна практика</option>
         </select>
         </div>
 

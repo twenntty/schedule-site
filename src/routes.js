@@ -27,7 +27,7 @@ const AuthRedirect = ({ children }) => {
 
 const AppRoutes = () => {
     return (
-        <Router>
+        <Router basename="/">
             <BodyColorWrapper>
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -39,6 +39,7 @@ const AppRoutes = () => {
                 <Route path="/inst/rooms" element={<CreateRoom />} />
                 <Route path="/periods" element={<CreatePeriod />} />
                 <Route path="/schedule" element={<Schedule />} />
+                <Route path="*" element={<Home />} />
             </Routes>
             </BodyColorWrapper>
         </Router>

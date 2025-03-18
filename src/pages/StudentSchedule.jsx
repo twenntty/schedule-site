@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import "../styles/StudentSchedule.css"
+import "../styles/StudentSchedule.css";
 
 const StudentSchedule = () => {
     const [specialties, setSpecialties] = useState([]);
@@ -22,6 +22,21 @@ const StudentSchedule = () => {
         { id: 5, name: "Пʼятниця" },
         { id: 6, name: "Субота" },
     ];
+
+    // useMemo для расчёта дат начала и конца текущей недели
+    const { startOfWeek, endOfWeek } = useMemo(() => {
+        const today = new Date();
+        const currentDay = today.getDay() === 0 ? 7 : today.getDay(); // Преобразуем воскресенье в 7
+        const start = new Date(today);
+        start.setDate(today.getDate() - currentDay + 1);
+        start.setHours(0, 0, 0, 0);
+
+        const end = new Date(start);
+        end.setDate(start.getDate() + 5);
+        end.setHours(23, 59, 59, 999);
+
+        return { startOfWeek: start, endOfWeek: end };
+    }, []);
 
     useEffect(() => {
         const fetchSpecialties = async () => {
@@ -90,16 +105,20 @@ const StudentSchedule = () => {
             setLoading(true);
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/schedule/${selectedGroup}`);
-                setSchedule(response.data);
+                const filteredSchedule = response.data.filter(lesson => {
+                    const lessonDate = new Date(lesson.date);
+                    return lessonDate >= startOfWeek && lessonDate <= endOfWeek;
+                });
+                setSchedule(filteredSchedule);
             } catch {
                 setError("Помилка загрузки розкладу");
             } finally {
                 setLoading(false);
             }
         };
-    
+
         fetchSchedule();
-    }, [selectedGroup]);
+    }, [selectedGroup, startOfWeek, endOfWeek]);
 
     return (
         <div>
@@ -150,11 +169,11 @@ const StudentSchedule = () => {
                                     <strong className="Lesson_info_about">{lesson.room ? lesson.room.name : "Не вказано"}</strong>
                                 </div>
                             ))}
-                            {schedule.filter((lesson) => lesson.dayOfWeek === day.id).length === 0 && (
-                                    <div className="lesson-card">
-                                        <p>Немає пар</p>
-                                    </div>
-                                )}
+                        {schedule.filter((lesson) => lesson.dayOfWeek === day.id).length === 0 && (
+                            <div className="lesson-card">
+                                <p>Немає пар</p>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

@@ -20,89 +20,92 @@ const TeacherSchedule = () => {
         { id: 6, name: "Субота" },
     ], []);
 
-    // Исправленный словарь переводов типов занятий
-    const lessonTypeTranslations = useMemo(() => ({
-        'Лекція': '[Лк]',
-        'Практика': '[Пр]',
-        'Лаб': '[Лб]',
-        'Іспит': '[Екз]',
-        'Навчальна практика': '[НП]',
-        'Виїзна практика': '[ВП]'
-    }), []);
+    // Определение начала и конца текущей недели
+    const { startOfWeek, endOfWeek } = useMemo(() => {
+        const today = new Date();
+        const currentDay = today.getDay() === 0 ? 7 : today.getDay(); // Воскресенье → 7
+        const start = new Date(today);
+        start.setDate(today.getDate() - currentDay + 1);
+        start.setHours(0, 0, 0, 0);
 
+        const end = new Date(start);
+        end.setDate(start.getDate() + 5);
+        end.setHours(23, 59, 59, 999);
+
+        return { startOfWeek: start, endOfWeek: end };
+    }, []);
+
+    // Получение списка преподавателей
     useEffect(() => {
-        const abortController = new AbortController();
-        
         const fetchTeachers = async () => {
             setLoadingTeachers(true);
             setErrorTeachers("");
             try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_API_URL}/teachers`,
-                    { signal: abortController.signal }
-                );
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/teachers`);
                 setTeachers(response.data);
             } catch (err) {
-                if (!abortController.signal.aborted) {
-                    setErrorTeachers("Помилка загрузки викладачів");
-                    console.error("Teachers Error:", err);
-                }
+                setErrorTeachers("Помилка загрузки викладачів");
+                console.error("Teachers Error:", err);
             } finally {
-                if (!abortController.signal.aborted) {
-                    setLoadingTeachers(false);
-                }
+                setLoadingTeachers(false);
             }
         };
-        
+
         fetchTeachers();
-        return () => abortController.abort();
     }, []);
 
+    // Получение расписания выбранного преподавателя
     const handleTeacherChange = async (e) => {
         const teacherId = e.target.value;
         setSelectedTeacher(teacherId);
         setSchedule([]);
         setErrorSchedule("");
-    
+
         if (!teacherId) return;
-    
-        const source = axios.CancelToken.source();
+
         setLoadingSchedule(true);
-        
+
         try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/schedule/teacher/${teacherId}`,
-                { cancelToken: source.token }
-            );
-            
-            const sortedSchedule = response.data.sort((a, b) => 
-                (a.period?.startTime || "").localeCompare(b.period?.startTime || "")
-            );
-            
-            setSchedule(sortedSchedule);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/schedule/teacher/${teacherId}`);
+            const filteredSchedule = response.data.filter(lesson => {
+                const lessonDate = new Date(lesson.date);
+                return lessonDate >= startOfWeek && lessonDate <= endOfWeek;
+            });
+
+            setSchedule(filteredSchedule);
         } catch (err) {
-            if (!axios.isCancel(err)) {
-                setErrorSchedule("Помилка загрузки розкладу");
-                console.error("Schedule Error:", err);
-            }
+            setErrorSchedule("Помилка загрузки розкладу");
+            console.error("Schedule Error:", err);
         } finally {
             setLoadingSchedule(false);
         }
     };
 
-    const scheduleByDay = useMemo(() => {
-        return weekDays.map(day => ({
-            ...day,
-            lessons: schedule
-                .filter(lesson => lesson.dayOfWeek === day.id)
-                .sort((a, b) => 
-                    (a.period?.startTime || "").localeCompare(b.period?.startTime || "")
-                )
-        }));
-    }, [schedule, weekDays]);
+const scheduleByDay = useMemo(() => {
+    const lessonTypeAbbreviations = {
+        "Практика": "Пр",
+        "Лекція": "Лк",
+        "Лабораторна": "Лб",
+        "Іспит": "Екз", 
+        "Навчальна практика": "НП", 
+        "Виїздна практика": "ВП"
+    };
+
+    return weekDays.map(day => ({
+        ...day,
+        lessons: schedule
+            .filter(lesson => lesson.dayOfWeek === day.id)
+            .sort((a, b) => (a.period?.startTime || "").localeCompare(b.period?.startTime || ""))
+            .map(lesson => ({
+                ...lesson,
+                lessonType: lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType
+            }))
+    }));
+}, [schedule, weekDays]);
 
     return (
         <div className="teacher-schedule-container">
+            {/* Выбор преподавателя */}
             <div className="ValueTeacher">
                 <select 
                     value={selectedTeacher} 
@@ -119,25 +122,30 @@ const TeacherSchedule = () => {
                 </select>
             </div>
 
+            {/* Индикация загрузки */}
             {loadingTeachers && <div className="loading">Завантаження викладачів...</div>}
             {errorTeachers && <div className="error">{errorTeachers}</div>}
-
             {loadingSchedule && <div className="loading">Завантаження розкладу...</div>}
             {errorSchedule && <div className="error">{errorSchedule}</div>}
 
+            {/* Отображение расписания */}
             <div className="schedule-grid">
                 {scheduleByDay.map(({ id, name, lessons }) => (
                     <div key={id} className="day-column">
                         <span className="day_Name">{name}</span>
-                        
+
+                        {/* Если уроков нет */}
                         {lessons.length === 0 ? (
                             <div className="lesson-card empty">
                                 Немає пар
                             </div>
                         ) : (
+                            // Вывод занятий на день
                             lessons.map(lesson => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <div className="lesson-subject">{lesson.subject} {lessonTypeTranslations[lesson.lessonType] || "Тип не вказано"}</div>
+                                    <div className="lesson-subject">
+                                        {lesson.subject} [{lesson.lessonType}]
+                                    </div>
                                     <div className="lesson-time">
                                         {lesson.period?.startTime || "??:??"} - {lesson.period?.endTime || "??:??"}
                                     </div>
