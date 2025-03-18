@@ -29,6 +29,12 @@ const CreateLesson = () => {
 
   const API_URL = process.env.REACT_APP_API_URL;
 
+  useEffect(() => {
+    if (notification) {
+      setTimeout(() => setNotification(""), 5000);
+    }
+  }, [notification]);
+
   // Загрузка начальных данных (специальности, преподаватели, кабинеты, периоды)
   useEffect(() => {
     const fetchData = async () => {
