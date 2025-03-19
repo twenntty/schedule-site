@@ -31,8 +31,13 @@ const RegisterUser = () => {
             
             await axios.post(
                 apiUrl,
-                formData,
-                { headers: { Authorization: `Bearer ${token}` } }
+                formData, // Используем объект formData вместо отдельных полей
+                { 
+                    headers: { 
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json" 
+                    } 
+                }
             );
             
             alert("Користувача успішно зареєстровано!");
