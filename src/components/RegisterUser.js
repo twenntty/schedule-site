@@ -4,77 +4,143 @@ import { useNavigate } from "react-router-dom";
 
 const RegisterUser = () => {
     const navigate = useNavigate();
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [position, setPosition] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("");
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        patronymic: "",
+        position: "",
+        educationalInstitution: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+        role: ""
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token");
-            const apiUrl = `${process.env.REACT_APP_API_URL}/auth/register`; // Используем переменную окружения
+            const apiUrl = `${process.env.REACT_APP_API_URL}/auth/register`;
+            
             await axios.post(
                 apiUrl,
-                { firstName, lastName, position, email, password, role },
+                formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            alert("Пользователь успешно зарегистрирован!");
+            
+            alert("Користувача успішно зареєстровано!");
             navigate("/dashboard");
         } catch (error) {
-            console.error("Ошибка регистрации:", error);
-            alert("Ошибка при регистрации");
+            console.error("Помилка реєстрації:", error);
+            alert(error.response?.data?.message || "Помилка при реєстрації");
         }
     };
 
     return (
-        <div>
-            <h2>Регистрация пользователя</h2>
+        <div className="registration-form">
+            <h2>Реєстрація нового користувача</h2>
             <form onSubmit={handleRegister}>
-                <input
-                    type="text"
-                    placeholder="Имя"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Фамилия"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Должность"
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                    required
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <select value={role} onChange={(e) => setRole(e.target.value)} required>
-                    <option value="">Выберите роль</option>
-                    <option value="admin">Администратор</option>
-                    <option value="institution">Представитель учебного заведения</option>
-                    <option value="user">Пользователь</option>
-                </select>
-                <button type="submit">Зарегистрировать</button>
+                {/* Основные поля */}
+                <div className="form-row">
+                    <input
+                        type="text"
+                        name="firstName"
+                        placeholder="Ім'я"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Прізвище"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="patronymic"
+                        placeholder="По батькові (необов'язково)"
+                        value={formData.patronymic}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                {/* Контактная информация */}
+                <div className="form-row">
+                    <input
+                        type="tel"
+                        name="phoneNumber"
+                        placeholder="Номер телефону (+380XXXXXXXXX)"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        pattern="\+380\d{9}"
+                        required
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Електронна пошта"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                {/* Профессиональная информация */}
+                <div className="form-row">
+                    <input
+                        type="text"
+                        name="educationalInstitution"
+                        placeholder="Навчальний заклад"
+                        value={formData.educationalInstitution}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="position"
+                        placeholder="Посада"
+                        value={formData.position}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                {/* Пароль и роль */}
+                <div className="form-row">
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Пароль"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
+                    <select 
+                        name="role" 
+                        value={formData.role} 
+                        onChange={handleChange} 
+                        required
+                    >
+                        <option value="">Оберіть роль</option>
+                        <option value="admin">Адміністратор</option>
+                        <option value="institution">Представник закладу</option>
+                        <option value="user">Користувач</option>
+                    </select>
+                </div>
+
+                <button type="submit" className="submit-button">
+                    Зареєструвати
+                </button>
             </form>
         </div>
     );

@@ -34,7 +34,7 @@ const TeacherSchedule = () => {
 
         return { startOfWeek: start, endOfWeek: end };
     }, []);
-
+    
     // Получение списка преподавателей
     useEffect(() => {
         const fetchTeachers = async () => {

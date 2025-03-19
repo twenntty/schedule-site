@@ -175,7 +175,7 @@ const CreateLesson = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setNotification(`Пара створена для групи ${groups.find(g => g._id === selectedGroup)?.name || ""}`);
+      alert(`Пара створена для групи ${groups.find(g => g._id === selectedGroup)?.name || ""}`);
       navigate("/dashboard");
     } catch (error) {
       console.error("Ошибка при добавлении пары:", error);

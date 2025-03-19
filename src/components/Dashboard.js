@@ -15,6 +15,8 @@ const ManageCourses = lazy(() => import("./СreateCourse"));
 const ManageGroups = lazy(() => import("./ManageGroups"));
 const ManageStudentsSchedule = lazy(() => import("../pages/StudentSchedule"));
 const ManageTeachersSchedule = lazy(() => import("../pages/TeacherSchedule"));
+const EditSchedule = lazy(() => import("../pages/EditSchedule"));
+const RegisterUser = lazy(() => import("../components/RegisterUser"));
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -65,6 +67,12 @@ const Dashboard = () => {
                 return <ManageStudentsSchedule />;  
             case "schedule-teachers":
                 return <ManageTeachersSchedule />;  
+            case "edit-schedule":
+                return <EditSchedule />; 
+            case "register":
+                return <RegisterUser />; 
+                
+                
                 
             default:
                 return <Main user={user} />;
