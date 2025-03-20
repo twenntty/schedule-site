@@ -58,6 +58,11 @@
     padding: 30px;
     margin-left: 25px;
     min-width: 400px;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 .mainDashInfo {
@@ -71,4 +76,24 @@
     font-weight: 500;
     margin: 0;
     margin-bottom: 40px;
+}
+
+.teacher-hour-item {
+    background-color: white;
+    border-radius: 14px;
+    display: flex;
+    padding: 10px;
+    max-height: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.teacher-hours {
+    margin-left: 60px;
+}
+
+.Teacher-Hours_Text {
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    font-size: 17px;
 }
