@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/CreateTeacher.css";
+import "../styles/CreateRoom.css";
 import Delete from "../assets/svg/Remove.svg";
 import Search from "../assets/svg/Search.svg";
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/CreateRoom.css";
 import Delete from "../assets/svg/Remove.svg";
-import Edit from "../assets/svg/Edit.svg";
 import Search from "../assets/svg/Search.svg";
 
 const CreateRoom = () => {
