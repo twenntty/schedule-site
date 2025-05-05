@@ -1,13 +1,19 @@
-import React from 'react'
-import './ButtonLogin.css'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./ButtonLogin.css";
 
 const ButtonLogin = () => {
-  return (
-    <Link to="/auth">
-    <button className="button_login" >Увійти до Sched</button>
-    </Link>
-  )
-}
+    const navigate = useNavigate();
 
-export default ButtonLogin
+    const handleLoginClick = () => {
+        navigate("/auth");
+    };
+
+    return (
+        <button className="button_login" onClick={handleLoginClick}>
+            Увійти до Sched
+        </button>
+    );
+};
+
+export default ButtonLogin;
