@@ -154,6 +154,14 @@ const scheduleByDay = useMemo(() => {
                                             {lesson.room?.name || "Аудиторія не вказана"}
                                         </span>
                                         <br />
+                                        <span className="lesson-specialty">
+                                            {lesson.specialty?.name || "Спеціальність не вказана"}
+                                        </span>
+                                        <br />
+                                        <span className="lesson-course">
+                                            {lesson.course?.name || "Курс не вказано"}
+                                        </span>
+                                        <br />
                                         <span className="lesson-group">
                                             {lesson.group?.name || "Група не вказана"} група
                                         </span>
