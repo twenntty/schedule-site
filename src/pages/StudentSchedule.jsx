@@ -161,7 +161,7 @@ const StudentSchedule = () => {
                             .filter((lesson) => lesson.dayOfWeek === day.id)
                             .map((lesson) => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <strong>{lesson.subject} [{lesson.lessonType}]</strong>
+                                    <strong>{lesson.subject} [{lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}]</strong>
                                     <br />
                                     <span className="Lesson_info_teach">
                                         {lesson.teacher ? (
