@@ -38,6 +38,15 @@ const StudentSchedule = () => {
         return { startOfWeek: start, endOfWeek: end };
     }, []);
 
+    const lessonTypeAbbreviations = {
+        "Практика": "Пр",
+        "Лекція": "Лк",
+        "Лабораторна": "Лб",
+        "Іспит": "Екз", 
+        "Навчальна практика": "НП", 
+        "Виїздна практика": "ВП"
+    };
+
     useEffect(() => {
         const fetchSpecialties = async () => {
             setLoading(true);
@@ -152,7 +161,7 @@ const StudentSchedule = () => {
                             .filter((lesson) => lesson.dayOfWeek === day.id)
                             .map((lesson) => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <strong>{lesson.subject}</strong>
+                                    <strong>{lesson.subject} [{lesson.lessonType}]</strong>
                                     <br />
                                     <span className="Lesson_info_teach">
                                         {lesson.teacher ? (
