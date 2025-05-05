@@ -79,13 +79,17 @@
 }
 
 .teacher-hour-item {
-    background-color: white;
-    border-radius: 14px;
     display: flex;
-    padding: 10px;
-    max-height: 30px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    background-color: #ffffff;
+    padding: 1px 10px;
+    border-radius: 14px;
+    width: 100%;
+    min-height: 50px;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 .teacher-hours {
