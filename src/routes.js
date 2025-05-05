@@ -22,9 +22,7 @@ const AppRoutes = () => {
                     } />
                     
                     <Route path="/schedule" element={
-                        <PrivateRoute>
                             <Schedule />
-                        </PrivateRoute>
                     } />
 
                     <Route path="*" element={<Home />} />
