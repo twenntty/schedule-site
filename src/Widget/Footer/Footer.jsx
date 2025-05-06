@@ -18,12 +18,14 @@ const Footer = () => {
         </div>
         <div className="socialmedia">
             <h4 className='find_social'>Cлідкуйте за SCHED GO тут</h4>
-            <a href="https://www.instagram.com/sched.go/" target="_blank" rel="noopener noreferrer">
-                <img src={Inst} alt="Instagram" className='icon_inst' />
-            </a>
-            <a href="https://t.me/schedgo" target="_blank" rel="noopener noreferrer">
-                <img src={Tele} alt="Telegram" className='icon_telegram' />
-            </a>
+                <div className="social_icon">
+                    <a href="https://www.instagram.com/sched.go/" target="_blank" rel="noopener noreferrer">
+                        <img src={Inst} alt="Instagram" className='icon_inst' />
+                    </a>
+                    <a href="https://t.me/schedgo" target="_blank" rel="noopener noreferrer">
+                        <img src={Tele} alt="Telegram" className='icon_telegram' />
+                    </a>
+                </div>
         </div>
         <nav className="navbar_footer">
             <a onClick={() => scrollToSection("form")} className="nav">Для навчальних закладів</a>
