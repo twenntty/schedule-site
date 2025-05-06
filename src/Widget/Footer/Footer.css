@@ -26,6 +26,18 @@ footer {
 
 }
 
+.icon_telegram {
+    width: 45px;
+    height: 45px;
+
+}
+
+.icon_telegram:hover {
+    filter: invert(27%) sepia(95%) saturate(1922%) hue-rotate(187deg) brightness(97%) contrast(90%);
+    cursor: pointer;
+
+}
+
 .fonts_e_ukraine {
     opacity: 0.6;
     color: white;

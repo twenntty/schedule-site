@@ -2,6 +2,7 @@ import React from 'react'
 import "./Footer.css"
 import Logo from "../../assets/img/logo.png";
 import Inst from "../../assets/svg/Instagram.svg";
+import Tele from "../../assets/svg/telegram-footer.svg";
 import Smile from "../../assets/svg/smile.svg";
 
 const Footer = () => {
@@ -19,6 +20,9 @@ const Footer = () => {
             <h4 className='find_social'>Cлідкуйте за SCHED GO тут</h4>
             <a href="https://www.instagram.com/sched.go/" target="_blank" rel="noopener noreferrer">
                 <img src={Inst} alt="Instagram" className='icon_inst' />
+            </a>
+            <a href="https://t.me/schedgo" target="_blank" rel="noopener noreferrer">
+                <img src={Tele} alt="Telegram" className='icon_telegram' />
             </a>
         </div>
         <nav className="navbar_footer">

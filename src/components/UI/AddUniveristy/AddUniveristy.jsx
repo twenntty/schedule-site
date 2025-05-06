@@ -1,13 +1,20 @@
 import React from 'react'
 import './AddUniveristy.css'
-import { Link } from 'react-router-dom';
+
 
 const AddUniveristy = () => {
-  return (
-    <Link to="/">
-    <button className="button_add_university" >Долучитись до Sched GO</button>
-    </Link>
-  )
-}
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-export default AddUniveristy
+  return (
+    <button
+      className="button_add_university"
+      onClick={() => scrollToSection("form")}
+    >
+      Долучитись до Sched GO
+    </button>
+  );
+};
+
+export default AddUniveristy;
