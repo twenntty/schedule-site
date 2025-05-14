@@ -10,6 +10,7 @@ const Teachers = lazy(() => import("./CreateTeachers"));
 const AddPair = lazy(() => import("./CreateLesson"));
 const TimePairs = lazy(() => import("./CreatePeriod"));
 const Auditoriums = lazy(() => import("./CreateRoom"));
+const Members = lazy(() => import("./MembersList"));
 const Speciality = lazy(() => import("./CreateSpeciality"));
 const ManageCourses = lazy(() => import("./СreateCourse"));
 const ManageGroups = lazy(() => import("./ManageGroups"));
@@ -71,6 +72,8 @@ const Dashboard = () => {
                 return <EditSchedule />; 
             case "register":
                 return <RegisterUser />; 
+            case "members":
+                return <Members />; 
                 
                 
                 

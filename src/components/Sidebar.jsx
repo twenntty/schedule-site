@@ -4,10 +4,11 @@ import "../styles/Sidebar.css";
 const Sidebar = ({ setActivePage, activePage, role }) => {
     const menuItems = {
         admin: [
-            { name: "Управление пользователями", page: "members" },
-            { name: "Зарегистрировать пользователя", page: "register" },
-            { name: "Управление кабинетами", page: "rooms" },
-            { name: "Управление расписанием", page: "schedule" },
+            { name: "Головна", page: "main" },
+            { name: "Користувачі", page: "members" },
+            { name: "Реєстрація", page: "register" },
+            { name: "Запити", page: "rooms" },
+            { name: "Звіти", page: "schedule" },
         ],
         institution: [
             { name: "Головна", page: "main" },
