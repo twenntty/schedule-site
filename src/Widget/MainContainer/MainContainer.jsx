@@ -1,6 +1,6 @@
 import React from 'react'
 import './MainContainer.css'
-import Telephone from '../../assets/img/Frame 1.png'
+import Iphone from '../../assets/img/iphone-bot.png'
 import ButtonSchedule from '../../components/UI/ButtonSchedule/ButtonSchedule'
 import ButtonTelegram from '../../components/UI/ButtonTelegram/ButtonTelegram'
 
@@ -21,7 +21,7 @@ const MainContainer = () => {
                 </div>
         </div>
         <div className="telephone">
-            <img src={Telephone} alt="bot" />
+            <img src={Iphone} alt="bot" />
         </div>
     </div>
   )
