@@ -23,10 +23,9 @@ const StudentSchedule = () => {
         { id: 6, name: "Субота" },
     ];
 
-    // useMemo для расчёта дат начала и конца текущей недели
     const { startOfWeek, endOfWeek } = useMemo(() => {
         const today = new Date();
-        const currentDay = today.getDay() === 0 ? 7 : today.getDay(); // Преобразуем воскресенье в 7
+        const currentDay = today.getDay() === 0 ? 7 : today.getDay();
         const start = new Date(today);
         start.setDate(today.getDate() - currentDay + 1);
         start.setHours(0, 0, 0, 0);

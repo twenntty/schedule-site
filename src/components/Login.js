@@ -15,7 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        document.title = "SchedGo - Вхід"; // Устанавливаем название вкладки
+        document.title = "SchedGo - Вхід";
     }, []);
 
     const handleLogin = async (e) => {

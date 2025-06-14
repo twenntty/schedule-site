@@ -53,7 +53,7 @@ const CreateLesson = () => {
           axios.get(`${API_URL}/specialties`, { headers: { Authorization: `Bearer ${token}` } }),
           axios.get(`${API_URL}/teachers`, { headers: { Authorization: `Bearer ${token}` } }),
           axios.get(`${API_URL}/api/rooms`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`${API_URL}/api/periods`),
+          axios.get(`${API_URL}/api/periods`, { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         setSpecialties(specialtiesResponse.data);
