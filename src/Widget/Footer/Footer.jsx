@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Footer.css"
 import Logo from "../../assets/img/logo.png";
-import Inst from "../../assets/svg/instagram.svg";
+import Inst from "../../assets/svg/Instagram.svg";
 import Tele from "../../assets/svg/telegram-footer.svg";
 import Smile from "../../assets/svg/smile.svg";
 
