@@ -107,6 +107,29 @@ const StudentSchedule = () => {
         }
     };
 
+    const handleExportCalendar = async () => {
+    if (!selectedGroup) return;
+
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/schedule/group/${selectedGroup}/export-week.ics`);
+        if (!response.ok) throw new Error("Помилка експорту");
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `schedule_${selectedGroup}.ics`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Помилка експорту в календар:", error);
+        alert("Не вдалося експортувати календар");
+    }
+    };
+
     useEffect(() => {
         const fetchSchedule = async () => {
             if (!selectedGroup) return;
@@ -149,6 +172,9 @@ const StudentSchedule = () => {
                         <option key={group._id} value={group._id}>{group.name}</option>
                     ))}
                 </select>
+                <button onClick={handleExportCalendar} className="export-button">
+                    📅 Експортувати в календар
+                </button>
             </div>
             {loading && <p>Загрузка...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}

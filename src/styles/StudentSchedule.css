@@ -66,6 +66,19 @@
     justify-content: center;
 }
 
+.export-button {
+    height: 28px;
+    background-color: #7575756e;
+    border: none;
+    outline: none;
+    color: black;
+    border-radius: 44px;
+    padding-left: 10px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+    cursor: pointer;
+}
+
 .lesson-card {
     background-color: white;
     padding: 10px;

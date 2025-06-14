@@ -1,6 +1,6 @@
 import React from 'react'
 import Logo from "../../assets/img/logo.png"
-import INST from "../../assets/svg/Instagram.svg"
+import INST from "../../assets/svg/instagram.svg"
 import "./FooterForAuth.css"
 
 const FooterForAuth = () => {
