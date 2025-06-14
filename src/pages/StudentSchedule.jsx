@@ -130,6 +130,31 @@ const StudentSchedule = () => {
     }
     };
 
+    const handleExportExcel = async () => {
+    if (!selectedGroup) return;
+
+    try {
+        const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/schedule/group/${selectedGroup}/export-week.xlsx`
+        );
+        if (!response.ok) throw new Error("Помилка експорту Excel");
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `schedule_${selectedGroup}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("❌ Помилка експорту в Excel:", error);
+        alert("Не вдалося експортувати Excel-файл");
+    }
+    };
+
     useEffect(() => {
         const fetchSchedule = async () => {
             if (!selectedGroup) return;
@@ -174,6 +199,9 @@ const StudentSchedule = () => {
                 </select>
                 <button onClick={handleExportCalendar} className="export-button">
                     📅 Експортувати в календар
+                </button>
+                <button onClick={handleExportExcel} className="export-button">
+                    🖨️ Друк
                 </button>
             </div>
             {loading && <p>Загрузка...</p>}
