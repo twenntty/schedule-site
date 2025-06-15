@@ -28,8 +28,16 @@ const EditSchedule = () => {
   const { startOfWeek, endOfWeek } = useMemo(() => {
     const today = new Date();
     const currentDay = today.getDay() === 0 ? 7 : today.getDay();
+
     const start = new Date(today);
-    start.setDate(today.getDate() - currentDay + 1);
+
+    // Если сегодня воскресенье (currentDay == 7), тогда старт следующей недели,
+    // иначе старт текущей недели
+    if (currentDay === 7) {
+      start.setDate(today.getDate() - currentDay + 1 + 7);
+    } else {
+      start.setDate(today.getDate() - currentDay + 1);
+    }
     start.setHours(0, 0, 0, 0);
 
     const end = new Date(start);
@@ -118,10 +126,11 @@ const EditSchedule = () => {
 
     setLoading(true);
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/schedule/${groupId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/schedule/group/${groupId}/week/`);
       const filteredSchedule = response.data.filter((lesson) => {
         const lessonDate = new Date(lesson.date);
-        return lessonDate >= startOfWeek && lessonDate <= endOfWeek;
+        return lessonDate.getTime() >= startOfWeek.getTime() &&
+              lessonDate.getTime() <= endOfWeek.getTime();
       });
       setSchedule(filteredSchedule);
     } catch {
@@ -146,6 +155,11 @@ const EditSchedule = () => {
     setIsModalOpen(true);
   };
 
+  const getIsoWeekDay = (dateStr) => {
+  const day = new Date(dateStr).getDay(); // 0-6
+  return day === 0 ? 7 : day; // 1-7
+};
+
   const handleSaveEdit = (updatedLesson) => {
     setSchedule(prev => 
       prev.map(lesson => 
@@ -157,7 +171,7 @@ const EditSchedule = () => {
     
     // Опционально: повторная загрузка расписания для актуальности данных
     if (selectedGroup) {
-      axios.get(`${process.env.REACT_APP_API_URL}/schedule/${selectedGroup}`)
+      axios.get(`${process.env.REACT_APP_API_URL}/api/schedule/group/${selectedGroup}/week/`)
         .then(response => {
           const filteredSchedule = response.data.filter(lesson => {
             const lessonDate = new Date(lesson.date);
@@ -195,7 +209,9 @@ const EditSchedule = () => {
         {weekDays.map((day, index) => (
           <div key={index} className="day-column">
             <span className="day_Name">{day}</span>
-            {schedule.filter((lesson) => new Date(lesson.date).getDay() === index + 1).map((lesson) => (
+            {schedule
+            .filter((lesson) => getIsoWeekDay(lesson.date) === index + 1)
+            .map((lesson) => (
               <div key={lesson._id} className="lesson-card">
                 <strong>{lesson.subject} <span className="lesson-type">
                     [{lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}]

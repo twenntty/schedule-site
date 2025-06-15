@@ -4,6 +4,14 @@ import axios from "axios";
 
 const EditLessonModal = ({ lesson, onClose, onSave }) => {
   const API_URL = process.env.REACT_APP_API_URL;
+  const today = new Date();
+  const day = today.getDay();
+  const startOfWeek = new Date(today);
+    if (day === 0) {
+      startOfWeek.setDate(today.getDate() + 1);
+    } else {
+      startOfWeek.setDate(today.getDate() - day + 1);
+    }
   
   const [lessonData, setLessonData] = useState({
     subject: lesson.subject,
@@ -11,7 +19,18 @@ const EditLessonModal = ({ lesson, onClose, onSave }) => {
     lessonType: lesson.lessonType,
     period: lesson.period?._id || lesson.period,
     room: lesson.room?._id || lesson.room,
-    date: new Date(lesson.date).toISOString().split('T')[0],
+    date: (() => {
+      const today = new Date();
+      const lessonDate = new Date(lesson.date);
+
+      // Если сегодня воскресенье, сместим на +1 неделю
+      if (today.getDay() === 0) {
+        const daysToAdd = 7;
+        lessonDate.setDate(lessonDate.getDate() + daysToAdd);
+      }
+
+      return lessonDate.toISOString().split('T')[0];
+    })(),
     group: lesson.group?._id || lesson.group,
     course: lesson.course?._id || lesson.course,
     specialty: lesson.specialty?._id || lesson.specialty,
@@ -30,9 +49,9 @@ const EditLessonModal = ({ lesson, onClose, onSave }) => {
         const token = localStorage.getItem("token");
         
         const [teachersRes, roomsRes, periodsRes] = await Promise.all([
-          axios.get(`${API_URL}/teachers`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/teachers`),
           axios.get(`${API_URL}/api/rooms`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`${API_URL}/api/periods`)
+          axios.get(`${API_URL}/api/periods`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
 
         setTeachers(teachersRes.data);

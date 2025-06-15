@@ -25,13 +25,16 @@ const StudentSchedule = () => {
 
     const { startOfWeek, endOfWeek } = useMemo(() => {
         const today = new Date();
-        const currentDay = today.getDay() === 0 ? 7 : today.getDay();
+        const isSunday = today.getDay() === 0;
+
+        // Если воскресенье — начнем отсчет с понедельника следующей недели
+        const offset = isSunday ? 1 + 7 : 1; // 1 — понедельник
         const start = new Date(today);
-        start.setDate(today.getDate() - currentDay + 1);
+        start.setDate(today.getDate() - (today.getDay() || 7) + offset); // (0 — вс) => 7
         start.setHours(0, 0, 0, 0);
 
         const end = new Date(start);
-        end.setDate(start.getDate() + 5);
+        end.setDate(start.getDate() + 5); // до субботы
         end.setHours(23, 59, 59, 999);
 
         return { startOfWeek: start, endOfWeek: end };
@@ -160,7 +163,7 @@ const StudentSchedule = () => {
             if (!selectedGroup) return;
             setLoading(true);
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/schedule/${selectedGroup}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/schedule/group/${selectedGroup}/week/`);
                 const filteredSchedule = response.data.filter(lesson => {
                     const lessonDate = new Date(lesson.date);
                     return lessonDate >= startOfWeek && lessonDate <= endOfWeek;
