@@ -45,6 +45,24 @@
     border-radius: 44px;
     padding: 30px;
     min-width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-end;
+}
+
+.NumGroupText {
+    font-size: 20px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: normal;
+}
+
+.NumGroupCount {
+    font-size: 70px;
+    font-family: 'e-Ukraine', sans-serif;
+    font-weight: 200;
 }
 
 .mainDash {

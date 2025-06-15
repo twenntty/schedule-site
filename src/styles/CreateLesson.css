@@ -26,6 +26,17 @@
     max-height: 35px;
 }
 
+.schedule-container_ForLesson {
+    display: flex;
+    gap: 20px;
+    align-content: center;
+    justify-content: center;
+}
+
+.form_for_add{
+    margin-bottom: 25px;
+}
+
 .InputFourForSchedule {
     display: flex;
     flex-direction: row;

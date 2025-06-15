@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import "./MainDashboard.css";
+import axios from 'axios';
 
 const MainDashboard = ({ user }) => {
     const [teachersHours, setTeachersHours] = useState([]);
+    const [groupCount, setGroupCount] = useState(0);
+
+    useEffect(() => {
+        const fetchGroupCount = async () => {
+            try {
+                const apiUrl = process.env.REACT_APP_API_URL;
+                const response = await axios.get(`${apiUrl}/groups/count`);
+                setGroupCount(response.data.count);
+            } catch (error) {
+                console.error('Ошибка загрузки количества групп:', error);
+            }
+        };
+        fetchGroupCount();
+    }, []);
 
     useEffect(() => {
         const fetchTeachersHours = async () => {
@@ -35,13 +50,10 @@ const MainDashboard = ({ user }) => {
                         <p className="NumberUserDashboard">{user.phoneNumber}</p>
                     </div>
                     <div className="NumberGroups">
-                        <p className="NameUserDashboard">{user.firstName}</p>
-                        <p className="NameUserDashboard">{user.lastName}</p>
-                        <p className="NameUserDashboard">{user.firstName}</p>
-                        <p className="UniversityDashboard">{user.firstName}</p>
-                        <br />
-                        <p className="PositionUserDashboard">{user.position}</p>
-                        <p className="NumberUserDashboard">{user.firstName}</p>
+                        <p className="NumGroupText">К-сть навчальних груп:</p>
+                        <div className='GroupCount'>
+                        <p className="NumGroupCount">{groupCount}</p>
+                        </div>
                     </div>
                 </div>
                 <div className="HourTeacher">
@@ -52,7 +64,7 @@ const MainDashboard = ({ user }) => {
                         <p className="teacher-name">
                         {teacher.lastName} {teacher.firstName} {teacher.middleName}
                         </p>
-                        <p className="teacher-hours">{teacher.hours} год</p>
+                        <p className="teacher-hours">{teacher.monthlyHours} год</p>
                     </div>
                     ))
                 ) : (
