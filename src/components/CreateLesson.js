@@ -233,7 +233,7 @@ const CreateLesson = () => {
         setLessonType("");
         setSelectedTeacher("");
         setSubject("");
-        setSelectedClassroom("");
+        setSelectedClassroom("")
       };
 
     // Подготовка данных для отправки
