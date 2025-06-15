@@ -39,17 +39,26 @@ const CreateLesson = () => {
       ];
   
       const { startOfWeek, endOfWeek } = useMemo(() => {
-          const today = new Date();
-          const currentDay = today.getDay() === 0 ? 7 : today.getDay();
-          const start = new Date(today);
+        const today = new Date();
+        const currentDay = today.getDay() === 0 ? 7 : today.getDay();
+
+        let start = new Date(today);
+
+        if (currentDay === 7) {
+          // Сегодня воскресенье — берём понедельник следующей недели
+          start.setDate(today.getDate() + 1); 
+        } else {
+          // Иначе — понедельник текущей недели
           start.setDate(today.getDate() - currentDay + 1);
-          start.setHours(0, 0, 0, 0);
-  
-          const end = new Date(start);
-          end.setDate(start.getDate() + 5);
-          end.setHours(23, 59, 59, 999);
-  
-          return { startOfWeek: start, endOfWeek: end };
+        }
+        
+        start.setHours(0, 0, 0, 0);
+
+        const end = new Date(start);
+        end.setDate(start.getDate() + 5); // с Пн по Сб (6 дней)
+        end.setHours(23, 59, 59, 999);
+
+        return { startOfWeek: start, endOfWeek: end };
       }, []);
   
       const lessonTypeAbbreviations = {
@@ -81,7 +90,7 @@ const CreateLesson = () => {
         if (!selectedGroup) return;
         setLoading(true);
         try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/schedule/${selectedGroup}`);
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/schedule/group/${selectedGroup}/week/`);
           const filteredSchedule = response.data.filter(lesson => {
             const lessonDate = new Date(lesson.date);
             return lessonDate >= startOfWeek && lessonDate <= endOfWeek;
