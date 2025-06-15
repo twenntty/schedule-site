@@ -10,7 +10,7 @@ const MainDashboard = ({ user }) => {
         const fetchGroupCount = async () => {
             try {
                 const apiUrl = process.env.REACT_APP_API_URL;
-                const response = await axios.get(`${apiUrl}/groups/count`);
+                const response = await axios.get(`${apiUrl}/api/groups/count`);
                 setGroupCount(response.data.count);
             } catch (error) {
                 console.error('Ошибка загрузки количества групп:', error);
