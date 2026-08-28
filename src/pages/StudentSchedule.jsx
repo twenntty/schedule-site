@@ -201,14 +201,14 @@ const StudentSchedule = () => {
                     ))}
                 </select>
                 <button onClick={handleExportCalendar} className="export-button">
-                    📅 Експортувати в календар
+                    Експорт у календар
                 </button>
-                <button onClick={handleExportExcel} className="export-button">
-                    🖨️ Друк
+                <button onClick={handleExportExcel} className="export-button export-button--primary">
+                    Друк
                 </button>
             </div>
-            {loading && <p>Загрузка...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {loading && <p className="schedule-status">Завантаження…</p>}
+            {error && <p className="schedule-status error">{error}</p>}
             <div className="schedule-container">
                 {weekDays.map((day) => (
                     <div key={day.id} className="day-column">
@@ -217,27 +217,29 @@ const StudentSchedule = () => {
                             .filter((lesson) => lesson.dayOfWeek === day.id)
                             .map((lesson) => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <strong>{lesson.subject} [{lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}]</strong>
-                                    <br />
-                                    <span className="Lesson_info_teach">
-                                        {lesson.teacher ? (
-                                            <>
-                                                {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
-                                            </>
-                                        ) : (
-                                            "Викладач не вказаний"
-                                        )}
-                                    </span>
-                                    <br />
-                                    <strong className="Lesson_info_about">{lesson.period?.startTime} - {lesson.period?.endTime}</strong>
-                                    <br />
-                                    <strong className="Lesson_info_about">{lesson.room ? lesson.room.name : "Не вказано"}</strong>
+                                    <div className="lesson-card__head">
+                                        <span className="lesson-card__time">{lesson.period?.startTime} – {lesson.period?.endTime}</span>
+                                        <span className="lesson-type" data-type={lesson.lessonType}>
+                                            {lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}
+                                        </span>
+                                    </div>
+                                    <div className="lesson-card__subject">{lesson.subject}</div>
+                                    <div className="lesson-card__meta">
+                                        <span>
+                                            {lesson.teacher ? (
+                                                <>
+                                                    {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
+                                                </>
+                                            ) : (
+                                                "Викладач не вказаний"
+                                            )}
+                                        </span>
+                                        <span>{lesson.room ? lesson.room.name : "Аудиторія не вказана"}</span>
+                                    </div>
                                 </div>
                             ))}
                         {schedule.filter((lesson) => lesson.dayOfWeek === day.id).length === 0 && (
-                            <div className="lesson-card">
-                                <p>Немає пар</p>
-                            </div>
+                            <div className="lesson-card empty">Немає пар</div>
                         )}
                     </div>
                 ))}

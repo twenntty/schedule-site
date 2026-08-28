@@ -1,29 +1,41 @@
-.ValueUniversityInfo_Teacher {
-    width: 375px;
-    height: 28px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    border-radius: 44px;
-    padding-left: 10px;
-    font-size: 16px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    margin: 0;
+/* ============================================================
+   TeacherSchedule — teacher picker
+   (day grid + lesson cards inherited from StudentSchedule.css)
+   ============================================================ */
+
+.teacher-schedule-container {
+    display: block;
 }
 
 .ValueTeacher {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 24px 8px;
 }
 
-.schedule-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-content: center;
-    justify-content: center;
+.ValueUniversityInfo_Teacher {
+    width: 380px;
+    max-width: 100%;
+}
+
+.ValueUniversityInfo_Teacher:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.loading,
+.error {
+    max-width: 1240px;
+    margin: 6px auto 0;
+    padding: 0 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--sg-text-tertiary);
+}
+
+.error {
+    color: #d70015;
 }

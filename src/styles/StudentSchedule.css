@@ -1,108 +1,275 @@
+/* ============================================================
+   StudentSchedule — toolbar, day grid, lesson cards
+   (card + column styles are shared with TeacherSchedule)
+   ============================================================ */
+
+/* ---------- Toolbar ---------- */
 .ValueForSchedule {
     display: flex;
-    gap: 18px;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    margin-bottom: 50px;
-}
-
-.ValueUniversityInfo_Spec {
-    width: 238px;
-    height: 28px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    border-radius: 44px;
-    padding-left: 10px;
-    font-size: 16px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    margin: 0;
-}
-
-.ValueUniversityInfo_Course {
-    width: 100px;
-    height: 28px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    border-radius: 44px;
-    padding-left: 10px;
-    font-size: 16px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-}
-
-.ValueUniversityInfo_Groups {
-    width: 100px;
-    height: 28px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    border-radius: 44px;
-    padding-left: 10px;
-    font-size: 16px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-}
-
-.day-column {
-    background-color: #D9D9D9;
-    padding: 20px;
-    border-radius: 17px;
-}
-
-.schedule-container {
-    display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    align-content: center;
+    align-items: center;
     justify-content: center;
+    gap: 12px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 24px 8px;
 }
 
-.export-button {
-    height: 28px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    border-radius: 44px;
-    padding-left: 10px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
+/* ---------- Apple-style selects ---------- */
+.ValueUniversityInfo_Spec,
+.ValueUniversityInfo_Course,
+.ValueUniversityInfo_Groups,
+.ValueUniversityInfo_Teacher {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 38px;
+    box-sizing: border-box;
+    padding: 0 38px 0 16px;
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-sm);
+    background-color: var(--sg-surface);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2386868b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    box-shadow: var(--sg-shadow-sm);
+    color: var(--sg-text);
+    font-family: var(--sg-font);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 38px;
     cursor: pointer;
+    transition: border-color 0.2s var(--sg-ease), box-shadow 0.2s var(--sg-ease);
 }
 
-.lesson-card {
-    background-color: white;
-    padding: 10px;
-    border-radius: 17px;
-    margin-top: 20px;
+.ValueUniversityInfo_Spec { width: 240px; }
+.ValueUniversityInfo_Course { width: 150px; }
+.ValueUniversityInfo_Groups { width: 150px; }
+
+.ValueUniversityInfo_Spec:hover,
+.ValueUniversityInfo_Course:hover,
+.ValueUniversityInfo_Groups:hover,
+.ValueUniversityInfo_Teacher:hover {
+    border-color: rgba(0, 0, 0, 0.14);
+}
+
+.ValueUniversityInfo_Spec:focus-visible,
+.ValueUniversityInfo_Course:focus-visible,
+.ValueUniversityInfo_Groups:focus-visible,
+.ValueUniversityInfo_Teacher:focus-visible {
+    outline: none;
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 3.5px rgba(0, 113, 227, 0.18);
+}
+
+/* ---------- Buttons ---------- */
+.export-button {
+    height: 38px;
+    padding: 0 18px;
+    border: 1px solid transparent;
+    border-radius: var(--sg-radius-sm);
+    background: var(--sg-fill);
+    color: var(--sg-text);
+    font-family: var(--sg-font);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background-color 0.18s var(--sg-ease), transform 0.06s var(--sg-ease);
+}
+
+.export-button:hover {
+    background: var(--sg-fill-strong);
+}
+
+.export-button:active {
+    transform: scale(0.97);
+}
+
+.export-button--primary {
+    background: var(--sg-accent);
+    color: #fff;
+}
+
+.export-button--primary:hover {
+    background: var(--sg-accent-hover);
+}
+
+.export-button--primary:active {
+    background: var(--sg-accent-press);
+}
+
+/* ---------- Status line ---------- */
+.schedule-status {
+    max-width: 1240px;
+    margin: 6px auto 0;
+    padding: 0 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--sg-text-tertiary);
+}
+
+.schedule-status.error {
+    color: #d70015;
+}
+
+/* ---------- Week grid ---------- */
+.schedule-container,
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 1240px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+    align-content: start;
+    justify-content: initial;
+}
+
+/* ---------- Day column ---------- */
+.day-column {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
 }
 
 .day_Name {
-    font-size: 17px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    padding-bottom: 10px;
+    display: block;
+    padding: 0 4px 2px;
+    font-family: var(--sg-font);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--sg-text-tertiary);
 }
 
-.Lesson_info_about {
-    font-size: 15px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 200;
-    padding-bottom: 10px;
+/* ---------- Lesson card ---------- */
+.lesson-card {
+    background: var(--sg-surface);
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-md);
+    padding: 14px;
+    margin: 0;
+    box-shadow: var(--sg-shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.18s var(--sg-ease), box-shadow 0.18s var(--sg-ease);
 }
 
-.Lesson_info_teach {
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 12px 30px rgba(0, 0, 0, 0.09);
+}
+
+.lesson-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.lesson-card__time {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--sg-accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.lesson-card__subject {
     font-size: 15px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 200;
-    padding-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    color: var(--sg-text);
+}
+
+.lesson-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--sg-text-secondary);
+}
+
+.lesson-card__meta span {
+    display: block;
+}
+
+/* ---------- Lesson type tag ---------- */
+.lesson-type {
+    flex: none;
+    padding: 3px 8px;
+    border-radius: var(--sg-radius-pill);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    background: var(--sg-fill);
+    color: var(--sg-text-secondary);
+}
+
+.lesson-type[data-type="Лекція"]        { background: rgba(0, 113, 227, 0.12); color: #0066cc; }
+.lesson-type[data-type="Практика"]      { background: rgba(52, 199, 89, 0.16);  color: #248a3d; }
+.lesson-type[data-type="Лабораторна"]   { background: rgba(175, 82, 222, 0.14); color: #8944ab; }
+.lesson-type[data-type="Іспит"]         { background: rgba(255, 59, 48, 0.14);  color: #d70015; }
+.lesson-type[data-type="Навчальна практика"] { background: rgba(255, 149, 0, 0.16); color: #b25000; }
+.lesson-type[data-type="Виїздна практика"]   { background: rgba(255, 149, 0, 0.16); color: #b25000; }
+
+/* ---------- Empty state ---------- */
+.lesson-card.empty {
+    align-items: center;
+    justify-content: center;
+    min-height: 76px;
+    background: transparent;
+    border: 1px dashed rgba(0, 0, 0, 0.12);
+    box-shadow: none;
+    color: var(--sg-text-tertiary);
+    font-size: 13px;
+    text-align: center;
+}
+
+.lesson-card.empty:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+    .schedule-container,
+    .schedule-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .schedule-container,
+    .schedule-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+    .ValueForSchedule {
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .schedule-container,
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+    .ValueUniversityInfo_Spec,
+    .ValueUniversityInfo_Course,
+    .ValueUniversityInfo_Groups {
+        width: 100%;
+    }
 }

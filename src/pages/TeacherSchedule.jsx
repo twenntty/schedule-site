@@ -98,7 +98,7 @@ const scheduleByDay = useMemo(() => {
             .sort((a, b) => (a.period?.startTime || "").localeCompare(b.period?.startTime || ""))
             .map(lesson => ({
                 ...lesson,
-                lessonType: lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType
+                typeAbbr: lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType
             }))
     }));
 }, [schedule, weekDays]);
@@ -143,28 +143,20 @@ const scheduleByDay = useMemo(() => {
                             // Вывод занятий на день
                             lessons.map(lesson => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <div className="lesson-subject">
-                                        {lesson.subject} [{lesson.lessonType}]
+                                    <div className="lesson-card__head">
+                                        <span className="lesson-card__time">
+                                            {lesson.period?.startTime || "??:??"} – {lesson.period?.endTime || "??:??"}
+                                        </span>
+                                        <span className="lesson-type" data-type={lesson.lessonType}>
+                                            {lesson.typeAbbr}
+                                        </span>
                                     </div>
-                                    <div className="lesson-time">
-                                        {lesson.period?.startTime || "??:??"} - {lesson.period?.endTime || "??:??"}
-                                    </div>
-                                    <div className="lesson-meta">
-                                        <span className="lesson-room">
-                                            {lesson.room?.name || "Аудиторія не вказана"}
-                                        </span>
-                                        <br />
-                                        <span className="lesson-specialty">
-                                            {lesson.specialty?.name || "Спеціальність не вказана"}
-                                        </span>
-                                        <br />
-                                        <span className="lesson-course">
-                                            {lesson.course?.name || "Курс не вказано"}
-                                        </span>
-                                        <br />
-                                        <span className="lesson-group">
-                                            {lesson.group?.name || "Група не вказана"} група
-                                        </span>
+                                    <div className="lesson-card__subject">{lesson.subject}</div>
+                                    <div className="lesson-card__meta">
+                                        <span>{lesson.room?.name || "Аудиторія не вказана"}</span>
+                                        <span>{lesson.specialty?.name || "Спеціальність не вказана"}</span>
+                                        <span>{lesson.course?.name || "Курс не вказано"}</span>
+                                        <span>{lesson.group?.name || "Група не вказана"} група</span>
                                     </div>
                                 </div>
                             ))
