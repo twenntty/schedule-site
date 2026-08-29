@@ -1,60 +1,86 @@
-.LogoForDashboard {
-    width: 238px;
-    height: 50px;
-}
-
-.textInfoAccount {
-    color: white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: bold;
-    font-size: 12px;
-}
-
+/* ============================================================
+   Dashboard header — Apple light
+   ============================================================ */
 .headerForAuth {
+    position: sticky;
+    top: 0;
+    z-index: 30;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
+    padding: 14px 40px;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--sg-hairline);
+    font-family: var(--sg-font);
 }
 
-.IconForLogOut {
-    width: 16px;
-    height: 16px;
-}
-
-.ButtonForExit:hover {
-    cursor: pointer;
+.LogoForDashboard {
+    width: 168px;
+    height: auto;
+    display: block;
 }
 
 .InfoAndExit {
     display: flex;
     align-items: center;
-    gap: 10px; /* Расстояние между элементами */
+    gap: 12px;
 }
 
 .InfoAccount {
-    display: inline-flex; /* Подстраивает размер под контент */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #15292C;
-    border-radius: 45px;
-    padding: 4px 16px; /* Немного увеличиваем внутренние отступы */
-    white-space: nowrap; /* Предотвращает перенос текста */
+    background: var(--sg-fill);
+    border-radius: 999px;
+    padding: 8px 18px;
+    white-space: nowrap;
+}
+
+.textInfoAccount {
+    margin: 0;
+    color: var(--sg-text);
+    font-family: var(--sg-font);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: -0.01em;
 }
 
 .ButtonForExit {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;  /* Делаем квадратной */
-    height: 50px;
-    background-color: #C34A36;
-    border-radius: 50%; /* Делаем круглой */
+    width: 40px;
+    height: 40px;
+    background: var(--sg-fill);
+    border-radius: 50%;
     cursor: pointer;
+    transition: background-color 0.18s ease;
+}
+
+.ButtonForExit:hover {
+    background: rgba(255, 59, 48, 0.14);
 }
 
 .IconForLogOut {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    filter: brightness(0);
+    opacity: 0.55;
+    transition: opacity 0.18s ease;
+}
+
+.ButtonForExit:hover .IconForLogOut {
+    opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+    .headerForAuth {
+        padding: 12px 18px;
+    }
+    .LogoForDashboard {
+        width: 136px;
+    }
 }

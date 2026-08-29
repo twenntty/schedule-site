@@ -6,24 +6,22 @@ import ButtonTelegram from '../../components/UI/ButtonTelegram/ButtonTelegram'
 
 const MainContainer = () => {
   return (
-    <div className="main">
-        <div className="text_and_button">
-            <div className="main_text">
-                <h1 className='gradient'>SCHED GO - ТВІЙ ПОМІЧНИК</h1>
-                <p className='plus_info'>Забудьте про запізнення і хаос! Усе необхідне для вашого навчального процесу в одному місці 🗓️</p>
-            </div>
-                <div className="button">
-                    <p className='Everyone_text'>КОЖЕН ВЖЕ КОРИСТУЄТЬСЯ</p>
-                    <div className="button_rozklad">
-                            <ButtonSchedule />
-                            <ButtonTelegram />
-                        </div>
-                </div>
+    <section className="hero">
+      <div className="hero__content">
+        <h1 className="hero__title">SchedGO - твій помічник</h1>
+        <p className="hero__subtitle">
+          Забудьте про запізнення і хаос. Усе необхідне для вашого навчального процесу - в одному місці.
+        </p>
+        <div className="hero__cta">
+          <ButtonSchedule />
+          <ButtonTelegram />
         </div>
-        <div className="telephone">
-            <img src={Iphone} alt="bot" />
-        </div>
-    </div>
+      </div>
+
+      <div className="hero__device">
+        <img src={Iphone} alt="SchedGO у Telegram" />
+      </div>
+    </section>
   )
 }
 

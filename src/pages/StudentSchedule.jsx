@@ -27,10 +27,10 @@ const StudentSchedule = () => {
         const today = new Date();
         const isSunday = today.getDay() === 0;
 
-        // Если воскресенье — начнем отсчет с понедельника следующей недели
-        const offset = isSunday ? 1 + 7 : 1; // 1 — понедельник
+        // Если воскресенье - начнем отсчет с понедельника следующей недели
+        const offset = isSunday ? 1 + 7 : 1; // 1 - понедельник
         const start = new Date(today);
-        start.setDate(today.getDate() - (today.getDay() || 7) + offset); // (0 — вс) => 7
+        start.setDate(today.getDate() - (today.getDay() || 7) + offset); // (0 - вс) => 7
         start.setHours(0, 0, 0, 0);
 
         const end = new Date(start);

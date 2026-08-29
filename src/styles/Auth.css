@@ -1,95 +1,210 @@
+/* ============================================================
+   Auth (/auth) - Apple-style sign-in
+   ============================================================ */
 .auth-container {
-    background-color: white;
-}
-
-.WelcomTextAuth {
-    font-size: 48px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    color: black;
-    margin: 0;
-    padding-bottom: 10px;
-}
-
-.SadTextAuth {
-    color: #000;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 200;
-    font-size: 24px;
-    margin: 0;
-    padding-bottom: 45px;
-}
-
-.Form_SignIn {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    min-height: 100vh;
+    background: var(--sg-bg);
+    color: var(--sg-text);
+    font-family: var(--sg-font);
+    -webkit-font-smoothing: antialiased;
 }
 
-.Form_input {
-    width: 350px;
-    height: 60px;
-    border-radius: 44px;
-    background-color: #7575756e;
-    border: none;
-    outline: none;
-    color: black;
-    font-size: 18px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
-    text-align: left;
-    padding-left: 30px;
-    margin-bottom: 20px;
-}
-
-.Form_button {
-    width: 180px;
-    height: 40px;
-    background-color: #15292C;
-    color: white;
-    border-radius: 44px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    border-radius: 23px;
-    border: none;
-}
-
-.Form_button:hover {
-    cursor: pointer;
-}
-
+/* ---------- Main split layout ---------- */
 .Form_For_Auth {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-direction: row;
-    margin: 0 50px;
+    justify-content: center;
+    gap: 64px;
+    max-width: 1120px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 40px 64px;
+    box-sizing: border-box;
+}
+
+/* ---------- Form card ---------- */
+.Auth_Form {
+    flex: 0 1 420px;
+    display: flex;
+    flex-direction: column;
+    background: var(--sg-surface);
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-xl);
+    box-shadow: var(--sg-shadow-card);
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 .Text_Form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    user-select: none;  /* Запрещает выделение текста */
-  pointer-events: none; /* Отключает клики */
+    align-items: flex-start;
+    user-select: none;
+    pointer-events: none;
+    margin-bottom: 28px;
+}
+
+.WelcomTextAuth {
+    font-family: var(--sg-font);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--sg-text);
+    margin: 0;
+    padding: 0 0 8px;
+}
+
+.SadTextAuth {
+    font-family: var(--sg-font);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--sg-text-secondary);
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Form ---------- */
+.Form_SignIn {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
 }
 
 .InputCss {
     display: flex;
     flex-direction: column;
-    
+    gap: 7px;
 }
 
 .LabelCssForm {
-    font-family: 'e-Ukraine', sans-serif;
+    font-family: var(--sg-font);
+    font-size: 13px;
     font-weight: 500;
-    font-size: 12px;
-    padding-bottom: 10px;
-    user-select: none;  /* Запрещает выделение текста */
-    pointer-events: none; /* Отключает клики */
+    letter-spacing: -0.01em;
+    color: var(--sg-text-secondary);
+    padding: 0;
+    user-select: none;
+    pointer-events: none;
 }
 
+.Form_input {
+    width: 100%;
+    height: 52px;
+    box-sizing: border-box;
+    border-radius: var(--sg-radius-md);
+    background: var(--sg-surface);
+    border: 1px solid var(--sg-separator);
+    outline: none;
+    color: var(--sg-text);
+    font-size: 16px;
+    font-family: var(--sg-font);
+    font-weight: 400;
+    text-align: left;
+    padding: 0 16px;
+    margin: 0;
+    transition: border-color 0.2s var(--sg-ease), box-shadow 0.2s var(--sg-ease);
+}
+
+.Form_input::placeholder {
+    color: var(--sg-text-tertiary);
+}
+
+.Form_input:hover {
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.Form_input:focus {
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 3.5px rgba(0, 113, 227, 0.18);
+}
+
+/* ---------- Submit ---------- */
+.Form_button {
+    width: 100%;
+    height: 50px;
+    margin-top: 6px;
+    background: var(--sg-accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--sg-radius-md);
+    font-family: var(--sg-font);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background-color 0.18s var(--sg-ease), transform 0.06s var(--sg-ease);
+}
+
+.Form_button:hover {
+    background: var(--sg-accent-hover);
+}
+
+.Form_button:active {
+    background: var(--sg-accent-press);
+    transform: scale(0.99);
+}
+
+/* ---------- Error ---------- */
+.auth-error {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    border-radius: var(--sg-radius-sm);
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--sg-danger);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ---------- Illustration ---------- */
 .ImgForAuth {
+    flex: 0 1 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     -webkit-user-drag: none;
+}
+
+img.ImgForAuth {
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .Form_For_Auth {
+        flex-direction: column-reverse;
+        gap: 32px;
+        padding: 24px 20px 48px;
+    }
+    .ImgForAuth {
+        flex-basis: auto;
+    }
+    img.ImgForAuth {
+        max-width: 320px;
+    }
+    .Auth_Form {
+        flex-basis: auto;
+        width: 100%;
+        max-width: 440px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Auth_Form {
+        padding: 28px 22px;
+    }
+    .WelcomTextAuth {
+        font-size: 28px;
+    }
+    .SadTextAuth {
+        font-size: 15px;
+    }
 }

@@ -1,33 +1,63 @@
-.backarrow_for_header { 
-    width: 16px;
-    height: 16px;
-    margin-right: 12px;
+.headerforauth {
+    margin: 0;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--sg-hairline);
+}
+
+.BackSite {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 6px 10px 6px 6px;
+    border-radius: var(--sg-radius-sm);
+    text-decoration: none;
+    color: var(--sg-text-secondary);
+    transition: color 0.18s var(--sg-ease), background-color 0.18s var(--sg-ease);
+}
+
+.BackSite:hover {
+    color: var(--sg-accent);
+    background: var(--sg-fill);
+}
+
+.backarrow_for_header {
+    width: 15px;
+    height: 15px;
+    margin: 0;
     -webkit-user-drag: none;
 }
 
 .back_to_site {
     font-size: 14px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
+    font-family: var(--sg-font);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0;
 }
 
 .logoforauth {
-    width: 238px;
-    height: 28px;
+    width: 150px;
+    height: auto;
     -webkit-user-drag: none;
 }
 
-.BackSite {
-    display: flex
-;
-    align-items: center;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-.headerforauth {
-    margin: 10px 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+@media (max-width: 480px) {
+    .headerforauth {
+        padding: 12px 16px;
+    }
+    .back_to_site {
+        font-size: 13px;
+    }
+    .logoforauth {
+        width: 120px;
+    }
 }

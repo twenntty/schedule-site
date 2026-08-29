@@ -1,32 +1,43 @@
 .button_telegram {
-    background-color: rgba(117, 117, 117, 0.2);
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    width: 350px;
-    height: 60px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
-    border-radius: 44px;
-    font-size: 14px;
+    height: 52px;
+    padding: 0 26px;
+    font-family: var(--sg-font);
+    font-weight: 500;
+    border-radius: 999px;
+    font-size: 16px;
+    letter-spacing: -0.01em;
     outline: none;
     border: none;
-    color: white;
+    background: rgba(0, 0, 0, 0.05);
+    color: #1d1d1f;
     text-decoration: none !important;
+    transition: background-color 0.2s ease, transform 0.06s ease;
 }
 
 .button_telegram:hover {
-    background-color: rgba(117, 117, 117, 0.4);
+    background: rgba(0, 0, 0, 0.09);
     text-decoration: none !important;
 }
 
+.button_telegram:active {
+    transform: scale(0.98);
+}
+
+.button_telegram img {
+    filter: brightness(0);
+    opacity: 0.85;
+}
+
 a {
-    text-decoration: none; /* Убираем подчеркивание */
-    color: inherit; /* Наследуем цвет текста */
-  }
-  
-  a:focus, a:active, a:hover {
     text-decoration: none;
-  }
+    color: inherit;
+}
+
+a:focus, a:active, a:hover {
+    text-decoration: none;
+}

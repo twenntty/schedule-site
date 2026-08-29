@@ -38,9 +38,9 @@ const Login = () => {
                 <div className="Auth_Form">
                     <div className="Text_Form">
                         <h2 className="WelcomTextAuth">Ласкаво просимо!</h2>
-                        <h3 className="SadTextAuth">З поверненням, ми сумували 😿</h3>
+                        <h3 className="SadTextAuth">З поверненням - увійдіть до свого акаунта</h3>
                     </div>
-                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {error && <p className="auth-error">{error}</p>}
                     <form onSubmit={handleLogin} className="Form_SignIn">
                         <div className="InputCss">
                             <label htmlFor="username" className="LabelCssForm">Email:</label>

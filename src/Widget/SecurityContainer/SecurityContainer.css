@@ -1,31 +1,70 @@
+/* ============================================================
+   Security section - Apple light
+   ============================================================ */
 .main_security {
-    padding: 50px 50px;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
     flex-direction: row;
-}
-
-.Security_header {
-    max-width: 500px;
+    align-items: center;
+    justify-content: center;
+    gap: 72px;
+    padding: 120px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+    background: #ffffff;
+    font-family: var(--sg-font);
+    color: var(--sg-text);
 }
 
 .security_text {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    flex: 0 1 460px;
+}
+
+.Security_header {
+    margin: 0;
+    max-width: 460px;
+    font-size: clamp(30px, 3.6vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--sg-text);
+    text-align: left;
 }
 
 .svg_security {
-    width: 365px;
-    height: 355px;
-    margin-top: 90px;
+    width: clamp(240px, 26vw, 320px);
+    height: auto;
+    margin-top: 40px;
+}
+
+.about_security {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 0 1 520px;
 }
 
 .security {
-    color: white;
-    font-size: 16px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    max-width: 500px;
-    line-height: 24px;
+    margin: 0;
+    max-width: 520px;
+    color: var(--sg-text-secondary);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+    .main_security {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        padding: 80px 20px;
+    }
+    .security_text,
+    .about_security {
+        flex-basis: auto;
+        width: 100%;
+    }
 }

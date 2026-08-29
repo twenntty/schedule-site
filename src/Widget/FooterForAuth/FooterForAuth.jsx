@@ -10,7 +10,7 @@ const FooterForAuth = () => {
                 <img src={Logo} alt="Logo" className='LogoForAuthFooter' />
                 <div className="TextFooter">
                     <p className="Cooperate">Всі права захищені.</p>
-                    <p className="Cooperate">© 2025 schedgo.online </p>
+                    <p className="Cooperate">© 2026 schedgo.online </p>
                 </div>
             </div>
             <div className="SocialMediaFooter">

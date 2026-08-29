@@ -1,43 +1,110 @@
+/* ============================================================
+   CreateLesson (Додати пару) — Apple light
+   ============================================================ */
 .InputSchedule {
-    color: black;
-    background-color: #D9D9D9;
-    font-size: 17px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    border-radius: 17px;
-    padding: 10px;
+    box-sizing: border-box;
+    height: 44px;
+    color: var(--sg-text);
+    background: #ffffff;
+    font-size: 15px;
+    font-family: var(--sg-font);
+    font-weight: 400;
+    border: 1px solid var(--sg-separator);
+    border-radius: var(--sg-radius-md);
+    padding: 0 16px;
     outline: none;
-    border: none;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.InputSchedule::placeholder {
+    color: var(--sg-text-tertiary);
+}
+
+.InputSchedule:focus {
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 3.5px rgba(0, 113, 227, 0.18);
+}
+
+/* selects get the Apple chevron */
+select.InputSchedule {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    padding-right: 38px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2386868b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
 }
 
 .buttonForScheduleAdd {
-    background-color: #15292C;
-    border-radius: 17px;
-    cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    color: white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    padding: 5px 40px;
-    text-align: center;
-    max-height: 35px;
-}
-
-.schedule-container_ForLesson {
-    display: flex;
-    gap: 20px;
-    align-content: center;
     justify-content: center;
+    background: var(--sg-accent);
+    border-radius: var(--sg-radius-md);
+    cursor: pointer;
+    color: #ffffff;
+    font-family: var(--sg-font);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    padding: 0 28px;
+    height: 44px;
+    max-height: none;
+    border: none;
+    transition: background-color 0.18s ease, transform 0.06s ease;
 }
 
-.form_for_add{
-    margin-bottom: 25px;
+.buttonForScheduleAdd:hover {
+    background: var(--sg-accent-hover);
 }
 
+.buttonForScheduleAdd:active {
+    transform: scale(0.98);
+}
+
+/* ---------- Layout ---------- */
+.MainSchedules .form_for_add {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+    max-width: 900px;
+}
+
+.InputOneForSchedule,
+.InputTwoForSchedule,
+.InputThreeForSchedule,
 .InputFourForSchedule {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+}
+
+/* subject field grows to fill its row */
+.InputTwoForSchedule .InputSerchCabinet {
+    flex: 1 1 220px;
+}
+
+.schedule-container_ForLesson {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+    align-content: start;
+}
+
+@media (max-width: 1080px) {
+    .schedule-container_ForLesson {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .schedule-container_ForLesson {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

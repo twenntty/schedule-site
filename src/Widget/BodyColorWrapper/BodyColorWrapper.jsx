@@ -6,17 +6,17 @@ const BodyColorWrapper = ({ children }) => {
 
   useEffect(() => {
     if (location.pathname.startsWith("/auth")) {
-      document.body.style.backgroundColor = "white";
+      document.body.style.backgroundColor = "#f5f5f7";
     } else if (location.pathname.startsWith("/dashboard")) {
-      document.body.style.backgroundColor = "white"; // Цвет фона для дашборда
+      document.body.style.backgroundColor = "#f5f5f7"; // Apple system background
     } else if (location.pathname.startsWith("/schedule")) {
       document.body.style.backgroundColor = "#f5f5f7"; // Apple system background
   } else {
-      document.body.style.backgroundColor = "#15292C";
+      document.body.style.backgroundColor = "#ffffff";
     }
 
     return () => {
-      document.body.style.backgroundColor = "#15292C"; // Возвращаем цвет при размонтировании
+      document.body.style.backgroundColor = "#ffffff";
     };
   }, [location]);
 

@@ -213,26 +213,29 @@ const EditSchedule = () => {
             .filter((lesson) => getIsoWeekDay(lesson.date) === index + 1)
             .map((lesson) => (
               <div key={lesson._id} className="lesson-card">
-                <strong>{lesson.subject} <span className="lesson-type">
-                    [{lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}]
-                  </span></strong>
-                <br />
-                <span className="Lesson_info_teach">
+                <div className="lesson-card__head">
+                  <span className="lesson-card__time">{lesson.period?.startTime} – {lesson.period?.endTime}</span>
+                  <span className="lesson-type" data-type={lesson.lessonType}>
+                    {lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}
+                  </span>
+                </div>
+                <div className="lesson-card__subject">{lesson.subject}</div>
+                <div className="lesson-card__meta">
+                  <span>
                     {lesson.teacher ? (
-                        <>
-                            {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
-                        </>
+                      <>
+                        {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
+                      </>
                     ) : (
-                        "Викладач не вказаний"
+                      "Викладач не вказаний"
                     )}
-                </span>
-                <br />
-                <strong className="Lesson_info_about">{lesson.period?.startTime} - {lesson.period?.endTime}</strong>
-                <br />
-                <strong className="Lesson_info_about">{lesson.room ? lesson.room.name : "Не вказано"}</strong>
-                <br />
-                <button onClick={() => handleEditClick(lesson)}>Редагувати</button>
-                <button onClick={() => handleDeleteLesson(lesson._id)}>Видалити</button>
+                  </span>
+                  <span>{lesson.room ? lesson.room.name : "Не вказано"}</span>
+                </div>
+                <div className="lesson-card__actions">
+                  <button className="lesson-edit-btn" onClick={() => handleEditClick(lesson)}>Редагувати</button>
+                  <button className="lesson-del-btn" onClick={() => handleDeleteLesson(lesson._id)}>Видалити</button>
+                </div>
               </div>
             ))}
           </div>

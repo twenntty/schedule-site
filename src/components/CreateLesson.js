@@ -45,10 +45,10 @@ const CreateLesson = () => {
         let start = new Date(today);
 
         if (currentDay === 7) {
-          // Сегодня воскресенье — берём понедельник следующей недели
+          // Сегодня воскресенье - берём понедельник следующей недели
           start.setDate(today.getDate() + 1); 
         } else {
-          // Иначе — понедельник текущей недели
+          // Иначе - понедельник текущей недели
           start.setDate(today.getDate() - currentDay + 1);
         }
         
@@ -392,27 +392,29 @@ const CreateLesson = () => {
                             .filter((lesson) => lesson.dayOfWeek === day.id)
                             .map((lesson) => (
                                 <div key={lesson._id} className="lesson-card">
-                                    <strong>{lesson.subject} [{lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}]</strong>
-                                    <br />
-                                    <span className="Lesson_info_teach">
-                                        {lesson.teacher ? (
-                                            <>
-                                                {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
-                                            </>
-                                        ) : (
-                                            "Викладач не вказаний"
-                                        )}
-                                    </span>
-                                    <br />
-                                    <strong className="Lesson_info_about">{lesson.period?.startTime} - {lesson.period?.endTime}</strong>
-                                    <br />
-                                    <strong className="Lesson_info_about">{lesson.room ? lesson.room.name : "Не вказано"}</strong>
+                                    <div className="lesson-card__head">
+                                        <span className="lesson-card__time">{lesson.period?.startTime} – {lesson.period?.endTime}</span>
+                                        <span className="lesson-type" data-type={lesson.lessonType}>
+                                            {lessonTypeAbbreviations[lesson.lessonType] || lesson.lessonType}
+                                        </span>
+                                    </div>
+                                    <div className="lesson-card__subject">{lesson.subject}</div>
+                                    <div className="lesson-card__meta">
+                                        <span>
+                                            {lesson.teacher ? (
+                                                <>
+                                                    {lesson.teacher.lastName} {lesson.teacher.firstName ? lesson.teacher.firstName.charAt(0) + "." : ""} {lesson.teacher.middleName ? lesson.teacher.middleName.charAt(0) + "." : ""}
+                                                </>
+                                            ) : (
+                                                "Викладач не вказаний"
+                                            )}
+                                        </span>
+                                        <span>{lesson.room ? lesson.room.name : "Не вказано"}</span>
+                                    </div>
                                 </div>
                             ))}
                         {schedule.filter((lesson) => lesson.dayOfWeek === day.id).length === 0 && (
-                            <div className="lesson-card">
-                                <p>Немає пар</p>
-                            </div>
+                            <div className="lesson-card empty">Немає пар</div>
                         )}
                     </div>
                 ))}

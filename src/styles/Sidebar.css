@@ -1,35 +1,72 @@
+/* ============================================================
+   Dashboard sidebar — Apple light (System Settings style)
+   ============================================================ */
 .SidebarForDashboard {
-    background-color: #E3E3E3;
-    padding: 20px 20px;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    align-content: flex-start;
-    flex-wrap: nowrap;
     flex-direction: column;
-    border-radius: 19px;
+    align-items: stretch;
+    gap: 2px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-lg);
+    box-shadow: var(--sg-shadow-sm);
+    width: 264px;
+    box-sizing: border-box;
+    flex: none;
+    position: fixed;
+    top: 92px;
+    left: 40px;
+    max-height: calc(100vh - 116px);
+    overflow-y: auto;
+    font-family: var(--sg-font);
 }
 
 .ItemMenu {
-    background-color: #FFFFFF;
-    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    padding: 11px 14px;
     cursor: pointer;
     list-style: none;
-    margin-bottom: 5px;
-    border-radius: 13px;
-    width: 240px;
+    margin: 0;
+    border-radius: var(--sg-radius-sm);
+    width: auto;
     font-size: 14px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
-    transition: background-color 0.3s ease;
+    font-family: var(--sg-font);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--sg-text-secondary);
+    transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 .ItemMenu:hover {
-    background-color: #15292C;
-    color: white;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--sg-text);
 }
 
 .ItemMenu.active {
-    background: #15292C;
-    color: white;
+    background: var(--sg-accent);
+    color: #ffffff;
+}
+
+.ItemMenu.active:hover {
+    background: var(--sg-accent-hover);
+    color: #ffffff;
+}
+
+@media (max-width: 900px) {
+    .SidebarForDashboard {
+        width: 100%;
+        position: static;
+        top: auto;
+        left: auto;
+        max-height: none;
+        overflow: visible;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .ItemMenu {
+        width: auto;
+    }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import LOGO from "../assets/svg/LogoForAuth.svg";
 import "../styles/Schedule.css";
 import StudentSchedule from "./StudentSchedule";
@@ -11,7 +12,9 @@ const Home = () => {
         <div className="Schedule_Component">
             <div className="HeaderForSchedule">
                 <div className="logoForSchedule">
-                    <img src={LOGO} alt="Logo" className="LogoImgForSchedule" />
+                    <Link to="/" className="logoLinkForSchedule" aria-label="На головну">
+                        <img src={LOGO} alt="SchedGO" className="LogoImgForSchedule" />
+                    </Link>
                 </div>
                 <div className="main_header_for_schedule">
                     <div className="navbarForSchedule">

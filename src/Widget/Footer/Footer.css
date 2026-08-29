@@ -1,111 +1,144 @@
+/* ============================================================
+   Footer - Apple light, three-column layout
+   Left: logo + license + copyright · middle: site sections · right: social
+   ============================================================ */
 footer {
-    background-color: #121212;
+    background-color: #f5f5f7;
+    border-top: 1px solid var(--sg-hairline);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 48px 24px;
+    font-family: var(--sg-font);
+}
+
+.footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 48px;
+    width: 100%;
+    max-width: 1120px;
+}
+
+/* ---------- Left: brand + legal ---------- */
+.footer__brand {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 320px;
+}
+
+.footer__brand .logo {
+    width: 132px;
+    height: auto;
+    display: block;
+}
+
+.fonts_e_ukraine {
+    margin: 0;
+    color: var(--sg-text-tertiary);
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.coop {
+    margin: 0;
+    font-size: 12px;
+    color: var(--sg-text-tertiary);
+    font-family: var(--sg-font);
+    font-weight: 400;
+}
+
+/* ---------- Middle: site sections ---------- */
+.navbar_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+}
+
+.navbar_footer .nav {
+    all: unset;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--sg-text-secondary);
+    transition: color 0.18s ease;
+}
+
+.navbar_footer .nav:hover {
+    color: var(--sg-accent);
+}
+
+/* ---------- Right: social ---------- */
+.socialmedia {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
 }
 
 .find_social {
-    font-size: 36px;
-    color: white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 500;
-}
-
-.icon_inst {
-    width: 45px;
-    height: 45px;
-
-}
-
-.icon_inst:hover {
-    filter: invert(27%) sepia(95%) saturate(1922%) hue-rotate(187deg) brightness(97%) contrast(90%);
-    cursor: pointer;
-
-}
-
-.icon_telegram {
-    width: 45px;
-    height: 45px;
-
+    margin: 0;
+    font-size: 16px;
+    color: var(--sg-text);
+    font-family: var(--sg-font);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-align: right;
 }
 
 .social_icon {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 14px;
 }
 
+.icon_inst,
+.icon_telegram {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0);
+    opacity: 0.65;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.icon_inst:hover,
 .icon_telegram:hover {
-    filter: invert(27%) sepia(95%) saturate(1922%) hue-rotate(187deg) brightness(97%) contrast(90%);
+    opacity: 1;
+    transform: translateY(-2px);
     cursor: pointer;
-
 }
 
-.fonts_e_ukraine {
-    opacity: 0.6;
-    color: white;
-    font-size: 12px;
-    line-height: 16px;
-    max-width: 300px;
-}
-
-.coop {
-    font-size: 12px;
-    color: white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-}
-
-.socialmedia {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.coopyright {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 350px;
-    margin-bottom: 10px;
-}
-
-.navbar_footer {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    align-content: center;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 71px;
-    margin-top: 55px;
-    margin-bottom: 55px;
-}
-
-.smile {
-    width: 170px;
-    height: 170px;
-}
-
+/* legacy nodes no longer rendered */
+.line,
 .smile_sticker {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    display: none;
 }
 
-.line {
-    display: flex;
-    align-items: center;
-    width: 90%;
-    height: 2px; 
-    background-color: white; 
-    margin: 60px 10px;
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+    .footer__inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 32px;
+    }
+    .footer__brand,
+    .navbar_footer,
+    .socialmedia {
+        align-items: center;
+    }
+    .fonts_e_ukraine {
+        text-align: center;
+    }
+    .find_social {
+        text-align: center;
+    }
 }

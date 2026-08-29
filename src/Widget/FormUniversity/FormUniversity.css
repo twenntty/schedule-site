@@ -1,163 +1,182 @@
-.Adduniversity {
-    width: 470px;
-    height: 85px;
-    border-radius: 23px;
-    font-size: 24px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid white;
-    text-align: left;
-    padding-left: 20px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-}
-
-.Adduniversity:hover {
-    background-color: white;
-    color: black;
-}
-
-.Adduniversity.active {
-    background-color: white;
-    color: black;
-}
-
-.information_button {
-    width: 470px;
-    height: 85px;
-    border-radius: 23px;
-    font-size: 24px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid white;
-    text-align: left;
-    padding-left: 20px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-}
-
-.information_button:hover {
-    background-color: white;
-    color: black;
-}
-
-.AddSchedGo {
-    font-size: 38px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    max-width: 300px;
+/* ============================================================
+   "Долучайтесь до Sched GO" form - Apple light
+   ============================================================ */
+.adduniversity_main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 72px;
+    padding: 120px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+    background: #ffffff;
+    font-family: var(--sg-font);
+    color: var(--sg-text);
 }
 
 .textandbutton_adduniversity {
     display: flex;
     flex-direction: column;
+    flex: 0 1 420px;
 }
 
-.adduniversity_main {
-    margin: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.AddSchedGo {
+    margin: 0;
+    max-width: 380px;
+    font-size: clamp(32px, 4.2vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--sg-text);
 }
 
 .button_form_school {
     display: flex;
     flex-direction: column;
-    gap: 35px;
-    margin-top: 60px;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.Adduniversity,
+.information_button {
+    width: auto;
+    height: auto;
+    padding: 14px 22px;
+    border-radius: var(--sg-radius-md);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-align: left;
+    font-family: var(--sg-font);
+    background: var(--sg-fill);
+    color: var(--sg-text);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.Adduniversity.active {
+    background: rgba(0, 113, 227, 0.1);
+    color: var(--sg-accent);
+    border-color: rgba(0, 113, 227, 0.2);
+}
+
+.Adduniversity:hover,
+.information_button:hover {
+    background: var(--sg-fill-strong);
+    color: var(--sg-text);
+}
+
+/* ---------- Form card ---------- */
+.form_for_add {
+    position: relative;
+    flex: 0 1 460px;
 }
 
 .FormAdd {
-    width: 450px;
-    height: 535px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid white;
-    border-radius: 23px;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-xl);
+    box-shadow: var(--sg-shadow-card);
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    margin: 50px;
-
-}
-
-.input_form {
-    border-radius: 23px;
-    background-color: white;
-    color: black;
-    font-size: 18px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    width: 395px;
-    height: 60px;
-    text-align: left;
-    padding-left: 30px;
-    border: none;
-    outline: none;
-    margin-bottom: 15px;
-}
-
-.input_form:focus {
-    outline: none;
+    align-items: stretch;
+    margin: 0;
+    padding: 32px;
 }
 
 .aboutuni_form {
-    font-size: 30px;
-    color: white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    margin: 20px;
+    margin: 0 0 18px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--sg-text);
 }
 
 .all_input {
-    margin: 10px;
-    display: grid;
-    justify-items: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.input_form {
+    box-sizing: border-box;
+    width: 100%;
+    height: 52px;
+    border-radius: var(--sg-radius-md);
+    background: #ffffff;
+    color: var(--sg-text);
+    border: 1px solid var(--sg-separator);
+    font-size: 16px;
+    font-family: var(--sg-font);
+    font-weight: 400;
+    text-align: left;
+    padding: 0 16px;
+    margin: 0;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input_form::placeholder {
+    color: var(--sg-text-tertiary);
+}
+
+.input_form:focus {
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 3.5px rgba(0, 113, 227, 0.18);
 }
 
 .button_for_add_univers {
-    width: 265px;
-    height: 60px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid white;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    font-size: 24px;
-    border-radius: 23px;
-    color: white;
-    margin-bottom: 15px;
+    width: 100%;
+    height: 50px;
+    margin: 6px 0 0;
+    background: #0071e3;
+    border: none;
+    font-family: var(--sg-font);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    border-radius: var(--sg-radius-md);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.06s ease;
 }
 
 .button_for_add_univers:hover {
-    color: black;
-    background-color: white;
-    cursor: pointer;
+    background: #0077ed;
+    color: #ffffff;
 }
 
-.custom-checkbox {
-    font-size: 12px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: normal;
-    color: white;
+.button_for_add_univers:active {
+    transform: scale(0.99);
 }
 
+/* ---------- Checkbox ---------- */
 .checkbox_flex {
     display: flex;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    margin-left: 10px;
+    margin: 2px 0 4px;
 }
 
 .customcheckbox {
     display: none;
 }
-  
+
 .custom-checkbox {
     position: relative;
     padding-left: 30px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--sg-text-secondary);
+    font-family: var(--sg-font);
+    font-weight: 400;
     display: flex;
     align-items: center;
 }
@@ -165,38 +184,61 @@
 .checkmark {
     position: absolute;
     left: 0;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    transition: background-color 0.3s, border-color 0.3s;
+    border: 1.5px solid var(--sg-text-tertiary);
+    border-radius: 6px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkmark::after {
+    content: "";
+    position: absolute;
+    left: 6.5px;
+    top: 2.5px;
+    width: 4px;
+    height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.15s ease;
 }
 
 .customcheckbox:checked + .checkmark {
-    background-color: #ffffff;
-    border-color: #ffffff;
+    background-color: var(--sg-accent);
+    border-color: var(--sg-accent);
 }
 
 .customcheckbox:checked + .checkmark::after {
-    content: '✔';
-    position: absolute;
-    left: 4px;
-    top: 0;
-    font-size: 14px;
-    color: rgb(0, 0, 0);
+    opacity: 1;
 }
 
-
+/* ---------- Decorative sticker ---------- */
 .smiley {
     position: absolute;
-    top: -25px;
-    right: -25px;
-    width: 157px;
-    height: 157px;
-    z-index: 10; /* Чтобы было поверх формы */
-  }
+    top: -28px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+    pointer-events: none;
+}
 
-.form_for_add{
-    position: relative;
+@media (max-width: 860px) {
+    .adduniversity_main {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 40px;
+        padding: 80px 20px;
+    }
+    .textandbutton_adduniversity,
+    .form_for_add {
+        flex-basis: auto;
+    }
+    .FormAdd {
+        max-width: none;
+    }
 }

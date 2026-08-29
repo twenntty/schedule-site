@@ -1,22 +1,34 @@
 .button_login {
-    background-color: rgba(117, 117, 117, 0.2);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
     align-items: center;
-    cursor: pointer;
-    width: 180px;
+    justify-content: center;
+    flex: none;
     height: 40px;
-    font-family: 'e-Ukraine', sans-serif;
-    font-weight: 300;
-    border-radius: 44px;
-    outline: none;
+    width: auto;
+    padding: 0 22px;
     border: none;
-    color: white;
+    outline: none;
+    border-radius: 999px;
+    background: #0071e3;
+    color: #ffffff;
+    font-family: var(--sg-font, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    cursor: pointer;
     text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 113, 227, 0.35);
+    transition: background-color 0.2s ease, transform 0.06s ease, box-shadow 0.2s ease;
 }
 
 .button_login:hover {
-    background-color: rgba(117, 117, 117, 0.4);
+    background: #0077ed;
     text-decoration: none !important;
+}
+
+.button_login:active {
+    transform: scale(0.97);
 }

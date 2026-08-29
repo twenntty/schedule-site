@@ -1,14 +1,48 @@
+/* ============================================================
+   Dashboard layout — Apple light
+   ============================================================ */
+.Dashboard {
+    min-height: 100vh;
+    background: #f5f5f7;
+    font-family: var(--sg-font);
+    color: var(--sg-text);
+}
+
 .DashboardFlex {
-    display: flex;
-    margin: 5px 50px;
+    display: block;
+    padding: 24px 40px 60px;
 }
 
 .MainDashboard {
-    min-width: 1000px;
-    background-color: white;
-    box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
-    margin-left: 20px;
-    margin-right: 50px;
-    border-radius: 19px;
-    padding: 30px 40px;
+    min-width: 0;
+    margin-left: 288px; /* 264 fixed sidebar + 24 gap */
+    max-width: 1180px;
+    background: #ffffff;
+    border: 1px solid var(--sg-hairline);
+    box-shadow: var(--sg-shadow-card);
+    border-radius: var(--sg-radius-xl);
+    padding: 32px 36px;
+}
+
+.loading-screen,
+.loading-module {
+    padding: 40px;
+    text-align: center;
+    color: var(--sg-text-secondary);
+    font-family: var(--sg-font);
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .DashboardFlex {
+        flex-direction: column;
+        padding: 18px 18px 48px;
+        gap: 16px;
+    }
+    .MainDashboard {
+        width: 100%;
+        margin-left: 0;
+        max-width: none;
+        padding: 24px 20px;
+    }
 }
