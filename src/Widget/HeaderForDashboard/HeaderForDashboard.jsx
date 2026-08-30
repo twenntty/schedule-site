@@ -19,23 +19,12 @@ const Header = () => {
   
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.warn("Токен відсутній, користувач не авторизований");
-        return;
-      }
-
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/me`); // cookie auth
         setUser(response.data);
       } catch (error) {
         console.error("Помилка завантаження даних користувача:", error);
         if (error.response && error.response.status === 401) {
-          localStorage.removeItem("token");
           window.location.href = "/auth";
         }
       }
@@ -44,8 +33,12 @@ const Header = () => {
     fetchUserData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/auth/logout`);
+    } catch (e) {
+      // ignore — clear client state regardless
+    }
     setUser(null);
     navigate("/auth");
   };

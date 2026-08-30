@@ -19,6 +19,7 @@ const Sidebar = ({ setActivePage, activePage, role }) => {
             { name: "Спеціальності", page: "specialties" },
             { name: "Курси", page: "courses" },
             { name: "Групи", page: "groups" },
+            { name: "Дисципліни", page: "disciplines" },
             { name: "Аудиторії", page: "auditoriums" },
             { name: "Розклад груп", page: "schedule-groups" },
             { name: "Розклад викладачів", page: "schedule-teachers" },

@@ -3,11 +3,13 @@ import axios from "axios";
 import "../styles/StudentSchedule.css";
 
 const StudentSchedule = () => {
+    const [institutions, setInstitutions] = useState([]);
     const [specialties, setSpecialties] = useState([]);
     const [courses, setCourses] = useState([]);
     const [groups, setGroups] = useState([]);
     const [schedule, setSchedule] = useState([]);
 
+    const [selectedInstitution, setSelectedInstitution] = useState("");
     const [selectedSpecialty, setSelectedSpecialty] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedGroup, setSelectedGroup] = useState("");
@@ -49,20 +51,35 @@ const StudentSchedule = () => {
         "Виїздна практика": "ВП"
     };
 
+    // Load the list of institutions first — the public timetable is scoped by institution.
     useEffect(() => {
-        const fetchSpecialties = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/specialties`);
-                setSpecialties(response.data);
-            } catch {
-                setError("Помилка загрузки спеціальностей");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchSpecialties();
+        axios.get(`${process.env.REACT_APP_API_URL}/institutions`)
+            .then((res) => setInstitutions(res.data))
+            .catch(() => setError("Помилка завантаження закладів"));
     }, []);
+
+    const handleInstitutionChange = async (e) => {
+        const institutionId = e.target.value;
+        setSelectedInstitution(institutionId);
+        setSelectedSpecialty("");
+        setSelectedCourse("");
+        setSelectedGroup("");
+        setSpecialties([]);
+        setCourses([]);
+        setGroups([]);
+        setSchedule([]);
+        if (!institutionId) return;
+
+        setLoading(true);
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/specialties?institution=${institutionId}`);
+            setSpecialties(response.data);
+        } catch {
+            setError("Помилка загрузки спеціальностей");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSpecialtyChange = async (e) => {
         const specialtyId = e.target.value;
@@ -79,7 +96,7 @@ const StudentSchedule = () => {
 
         setLoading(true);
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/courses/${specialtyId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/courses/${specialtyId}?institution=${selectedInstitution}`);
             setCourses(response.data);
         } catch {
             setError("Помилка загрузки курсів");
@@ -101,7 +118,7 @@ const StudentSchedule = () => {
 
         setLoading(true);
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/groups/${courseId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/groups/${courseId}?institution=${selectedInstitution}`);
             setGroups(response.data);
         } catch {
             setError("Помилка загрузки груп");
@@ -182,7 +199,13 @@ const StudentSchedule = () => {
     return (
         <div>
             <div className="ValueForSchedule">
-                <select value={selectedSpecialty} onChange={handleSpecialtyChange} className="ValueUniversityInfo_Spec">
+                <select value={selectedInstitution} onChange={handleInstitutionChange} className="ValueUniversityInfo_Spec">
+                    <option value="">Оберіть Заклад</option>
+                    {institutions.map((inst) => (
+                        <option key={inst._id} value={inst._id}>{inst.name}</option>
+                    ))}
+                </select>
+                <select value={selectedSpecialty} onChange={handleSpecialtyChange} disabled={!selectedInstitution} className="ValueUniversityInfo_Spec">
                     <option value="">Оберіть Спеціальність</option>
                     {specialties.map((spec) => (
                         <option key={spec._id} value={spec._id}>{spec.name}</option>

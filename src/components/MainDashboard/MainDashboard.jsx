@@ -23,9 +23,8 @@ const MainDashboard = ({ user }) => {
         const fetchTeachersHours = async () => {
           try {
             const apiUrl = process.env.REACT_APP_API_URL;
-            const response = await fetch(`${apiUrl}/teachers/with-hours`);
-            const data = await response.json();
-            setTeachersHours(data);
+            const response = await axios.get(`${apiUrl}/teachers/with-hours`); // axios sends the auth cookie
+            setTeachersHours(response.data);
           } catch (error) {
             console.error('Ошибка загрузки:', error);
           }

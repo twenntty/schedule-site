@@ -65,6 +65,44 @@ select.InputSchedule {
     transform: scale(0.98);
 }
 
+/* ---------- Header row (title + open-modal button) ---------- */
+.add-lesson-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+.add-lesson-head .text {
+    margin: 0;
+}
+
+.buttonForScheduleAdd:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.add-lesson-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+.add-lesson-filters .InputSchedule {
+    min-width: 200px;
+}
+
+.modal-context {
+    margin: 0 0 16px;
+    padding: 8px 12px;
+    background: var(--sg-surface-2);
+    border-radius: var(--sg-radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sg-text-secondary);
+}
+
 /* ---------- Layout ---------- */
 .MainSchedules .form_for_add {
     display: flex;

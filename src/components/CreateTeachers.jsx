@@ -4,6 +4,7 @@ import "../styles/CreateTeacher.css";
 import "../styles/CreateRoom.css";
 import Delete from "../assets/svg/Remove.svg";
 import Search from "../assets/svg/Search.svg";
+import EditTeacherModal from "./EditTeacherModal";
 
 const CreateTeachers = () => {
     const [firstName, setFirstName] = useState("");
@@ -14,16 +15,18 @@ const CreateTeachers = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [invite, setInvite] = useState("");
+    const [creds, setCreds] = useState(null); // { login, password } after adding
+    const [copied, setCopied] = useState(false);
+    const [editingTeacher, setEditingTeacher] = useState(null);
+
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchTeachers = async () => {
             setLoading(true);
             try {
-                const token = localStorage.getItem("token");
-                const apiUrl = process.env.REACT_APP_API_URL;
-                const response = await axios.get(`${apiUrl}/teachers`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await axios.get(`${apiUrl}/teachers`);
                 setTeachers(response.data);
             } catch (error) {
                 console.error("Помилка загрузки викладачів", error);
@@ -32,9 +35,18 @@ const CreateTeachers = () => {
                 setLoading(false);
             }
         };
-
         fetchTeachers();
-    }, []);
+
+        // Invite link for teacher self-registration.
+        axios.get(`${apiUrl}/institutions/me`).then((res) => {
+            const { slug, registrationToken } = res.data;
+            setInvite(`${window.location.origin}/register/${slug}/teacher?id=${registrationToken}`);
+        }).catch(() => {});
+    }, [apiUrl]);
+
+    const copyInvite = async () => {
+        try { await navigator.clipboard.writeText(invite); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch {}
+    };
 
     const handleCreateTeacher = async (e) => {
         e.preventDefault();
@@ -43,15 +55,9 @@ const CreateTeachers = () => {
         setError("");
     
         try {
-            const token = localStorage.getItem("token");
-            const apiUrl = process.env.REACT_APP_API_URL;
-            const response = await axios.post(
-                `${apiUrl}/teachers`,
-                { firstName, lastName, middleName },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-    
-            setTeachers([...teachers, response.data]);
+            const response = await axios.post(`${apiUrl}/teachers`, { firstName, lastName, middleName });
+            setTeachers([...teachers, response.data.teacher]);
+            setCreds(response.data.account); // { login, password } — shown once
             setFirstName("");
             setLastName("");
             setMiddleName("");
@@ -94,7 +100,31 @@ const CreateTeachers = () => {
             <div className="CabinetsTextDashboard">
                 <p className="text">Викладачі</p>
             </div>
-            
+
+            {invite && (
+                <div className="invite-card">
+                    <div className="invite-card__text">
+                        <p className="invite-card__title">Посилання для реєстрації викладачів</p>
+                        <p className="invite-card__link">{invite}</p>
+                    </div>
+                    <button type="button" className="invite-card__btn" onClick={copyInvite}>
+                        {copied ? "Скопійовано ✓" : "Копіювати"}
+                    </button>
+                </div>
+            )}
+
+            {creds && (
+                <div className="creds-card">
+                    <div>
+                        <p className="creds-card__title">Акаунт викладача створено</p>
+                        <p className="creds-card__row">Логін: <b>{creds.login}</b></p>
+                        <p className="creds-card__row">Пароль: <b>{creds.password}</b></p>
+                        <p className="creds-card__hint">Передайте ці дані викладачу — пароль більше не показуватиметься.</p>
+                    </div>
+                    <button type="button" className="creds-card__close" onClick={() => setCreds(null)}>✕</button>
+                </div>
+            )}
+
             <div className="ContainerForAddAndSerchTeachers">
                 <div className="SearchContainerTeachers">
                     <input
@@ -157,6 +187,7 @@ const CreateTeachers = () => {
                             <span className="Teachers-Name">{teacher.middleName}</span>
                             </div>
                             <div className="ButtonForCabinets">
+                                <div className="EditRooms teacher-edit-btn" onClick={() => setEditingTeacher(teacher)} title="Редагувати">✎</div>
                                 <div className="DeleteRooms" onClick={() => handleDeleteTeacher(teacher._id)} >
                                     <img src={Delete} alt="Remove" />
                                 </div>
@@ -166,6 +197,14 @@ const CreateTeachers = () => {
                 </div>
             ) : (
                 <p>В базі немає викладачів</p>
+            )}
+
+            {editingTeacher && (
+                <EditTeacherModal
+                    teacher={editingTeacher}
+                    onClose={() => setEditingTeacher(null)}
+                    onSave={(updated) => setTeachers(teachers.map((t) => (t._id === updated._id ? updated : t)))}
+                />
             )}
         </div>
     );

@@ -1,0 +1,90 @@
+/* ============================================================
+   ManageDisciplines — Apple light
+   ============================================================ */
+.discipline-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+    max-width: 640px;
+}
+
+.discipline-name { width: 100%; }
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.course-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--sg-separator);
+    border-radius: var(--sg-radius-md);
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+.course-toggle.active {
+    border-color: var(--sg-accent);
+    background: rgba(0, 113, 227, 0.05);
+}
+.course-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--sg-accent);
+    cursor: pointer;
+    flex: none;
+}
+.course-toggle__label {
+    font-family: var(--sg-font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--sg-text);
+    flex: 1;
+}
+.course-hours {
+    width: 96px;
+    height: 36px;
+    box-sizing: border-box;
+    border: 1px solid var(--sg-separator);
+    border-radius: var(--sg-radius-sm);
+    padding: 0 10px;
+    font-family: var(--sg-font);
+    font-size: 14px;
+    color: var(--sg-text);
+    background: #fff;
+    outline: none;
+}
+.course-hours:focus { border-color: var(--sg-accent); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.18); }
+.course-hours:disabled { background: var(--sg-fill); color: var(--sg-text-tertiary); }
+
+/* ---------- List ---------- */
+.discipline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.discipline-card { align-items: center; }
+.discipline-card__info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.discipline-card__name {
+    font-family: var(--sg-font);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--sg-text);
+}
+.discipline-card__courses {
+    font-family: var(--sg-font);
+    font-size: 13px;
+    color: var(--sg-text-secondary);
+    white-space: pre-wrap;
+}
+.discipline-empty { color: var(--sg-text-tertiary); font-size: 14px; }
+
+@media (max-width: 560px) {
+    .course-grid { grid-template-columns: 1fr; }
+}

@@ -36,3 +36,75 @@
     color: var(--sg-text);
     margin: 0;
 }
+
+.teacher-edit-btn {
+    font-size: 15px;
+    color: var(--sg-text-secondary);
+    font-weight: 600;
+}
+
+/* ---------- Invite link ---------- */
+.invite-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--sg-surface-2);
+    border: 1px solid var(--sg-hairline);
+    border-radius: var(--sg-radius-md);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+}
+.invite-card__text { min-width: 0; }
+.invite-card__title {
+    margin: 0 0 3px;
+    font-family: var(--sg-font);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sg-text);
+}
+.invite-card__link {
+    margin: 0;
+    font-family: var(--sg-font);
+    font-size: 13px;
+    color: var(--sg-text-secondary);
+    word-break: break-all;
+}
+.invite-card__btn {
+    flex: none;
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 999px;
+    background: var(--sg-accent);
+    color: #fff;
+    font-family: var(--sg-font);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.18s ease;
+}
+.invite-card__btn:hover { background: var(--sg-accent-hover); }
+
+/* ---------- Generated credentials ---------- */
+.creds-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(52, 199, 89, 0.1);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    border-radius: var(--sg-radius-md);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-family: var(--sg-font);
+}
+.creds-card__title { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: #248a3d; }
+.creds-card__row { margin: 2px 0; font-size: 14px; color: var(--sg-text); }
+.creds-card__row b { font-weight: 600; }
+.creds-card__hint { margin: 8px 0 0; font-size: 12px; color: var(--sg-text-secondary); }
+.creds-card__close {
+    flex: none; border: none; background: transparent; cursor: pointer;
+    font-size: 16px; color: var(--sg-text-tertiary); line-height: 1;
+}

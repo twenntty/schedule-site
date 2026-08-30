@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import "../styles/CreateLesson.css"
 import "../styles/CreateRoom.css";
+import "../styles/EditLessonModal.css";
 
 const CreateLesson = () => {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const CreateLesson = () => {
   const [selectedClassroom, setSelectedClassroom] = useState("");
   const [error, setError] = useState("");
   const [periods, setPeriods] = useState([]);
+  const [disciplines, setDisciplines] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [notification, setNotification] = useState("");
   const formRef = useRef();
   const [schedule, setSchedule] = useState([]);
@@ -84,6 +87,13 @@ const CreateLesson = () => {
           };
           fetchSpecialties();
       }, []);
+
+      // Disciplines of this institution — used for subject autocomplete.
+      useEffect(() => {
+          axios.get(`${process.env.REACT_APP_API_URL}/disciplines`)
+              .then((res) => setDisciplines(res.data))
+              .catch(() => {});
+      }, []);
   
 
       const fetchSchedule = async () => {
@@ -120,19 +130,11 @@ const CreateLesson = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Токен не найден, выполните вход.");
-          console.error("Токен не найден");
-          setLoading(false);
-          return;
-        }
-
         const [specialtiesResponse, teachersResponse, classroomsResponse, periodsResponse] = await Promise.all([
-          axios.get(`${API_URL}/specialties`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`${API_URL}/teachers`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`${API_URL}/api/rooms`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`${API_URL}/api/periods`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_URL}/specialties`),
+          axios.get(`${API_URL}/teachers`),
+          axios.get(`${API_URL}/api/rooms`),
+          axios.get(`${API_URL}/api/periods`),
         ]);
 
         setSpecialties(specialtiesResponse.data);
@@ -221,12 +223,6 @@ const CreateLesson = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("Токен не найден, выполните вход.");
-      return;
-    }
-
     // Проверка на заполнение обязательных полей
     if (!selectedCourse || !selectedSpecialty || !selectedGroup || !selectedTeacher || !subject || !lessonType || !selectedPeriod || !selectedClassroom || !date) {
       setError("Пожалуйста, заполните все обязательные поля.");
@@ -261,12 +257,8 @@ const CreateLesson = () => {
 
 
     try {
-      await axios.post(`${API_URL}/api/schedule`, lessonData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert(`Пара створена для групи ${groups.find(g => g._id === selectedGroup)?.name || ""}`);
+      await axios.post(`${API_URL}/api/schedule`, lessonData); // auth via cookie
+      setModalOpen(false);
       resetForm();
       await fetchSchedule();
     } catch (error) {
@@ -279,110 +271,102 @@ const CreateLesson = () => {
 
   return (
     <div className="MainSchedules">
-      <div className="ScheduleTextDashboard">
-                <p className="text">Додати пару</p>
-            </div>
-      {loading && <div>Загрузка...</div>}
+      <div className="add-lesson-head">
+        <p className="text">Додати пару</p>
+        <button type="button" className="buttonForScheduleAdd" disabled={!selectedGroup} onClick={() => setModalOpen(true)}>
+          + Додати пару
+        </button>
+      </div>
 
-      <form onSubmit={handleSubmit} ref={formRef} className="form_for_add">
-
-      <div className="InputOneForSchedule">
-          <select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} required className="InputSchedule">
-            <option value="">Оберіть спеціальність</option>
-            {specialties.map((spec) => (
-              <option key={spec._id} value={spec._id}>
-                {spec.name}
-              </option>
-            ))}
-          </select>
-
-          <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)} required className="InputSchedule">
-            <option value="">Оберіть курс</option>
-            {courses.map((course) => (
-              <option key={course._id} value={course._id}>
-                {course.name}
-              </option>
-            ))}
-          </select>
-
-          <select value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)} required className="InputSchedule">
-            <option value="">Оберіть групу</option>
-            {groups.map((group) => (
-              <option key={group._id} value={group._id}>
-                {group.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="InputTwoForSchedule">
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required className="InputSchedule" />
-
-        <input
-          type="text"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          placeholder="Назва предмету"
-          required
-          className="InputSerchCabinet"
-        />
-        </div>
-        
-        <div className="InputThreeForSchedule">
-        <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required className="InputSchedule">
-          <option value="">Оберіть викладача</option>
-          {teachers.map((teacher) => (
-            <option key={teacher._id} value={teacher._id}>
-              {teacher.fullName}
-            </option>
-          ))}
+      <div className="add-lesson-filters">
+        <select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} className="InputSchedule">
+          <option value="">Оберіть спеціальність</option>
+          {specialties.map((spec) => <option key={spec._id} value={spec._id}>{spec.name}</option>)}
         </select>
-
-        <select value={lessonType} onChange={(e) => setLessonType(e.target.value)} required className="InputSchedule">
-          <option value="">Оберіть тип пари</option>
-          <option value="Практика">Практика</option>
-          <option value="Лекція">Лекція</option> 
-          <option value="Лабораторна">Лабораторна</option>
-          <option value="Іспит">Іспит</option>
-          <option value="Навчальна практика">Навчальна практика</option>
-          <option value="Виїзна практика">Виїздна практика</option>
+        <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)} className="InputSchedule" disabled={!selectedSpecialty}>
+          <option value="">Оберіть курс</option>
+          {courses.map((course) => <option key={course._id} value={course._id}>{course.name}</option>)}
         </select>
-        </div>
-
-        <div className="InputFourForSchedule">
-
-        <select value={selectedClassroom} onChange={(e) => setSelectedClassroom(e.target.value)} required className="InputSchedule">
-          <option value="">Оберіть кабінет</option>
-          {classrooms.map((classroom) => (
-            <option key={classroom._id} value={classroom._id}>
-              {classroom.name}
-            </option>
-          ))}
+        <select value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)} className="InputSchedule" disabled={!selectedCourse}>
+          <option value="">Оберіть групу</option>
+          {groups.map((group) => <option key={group._id} value={group._id}>{group.name}</option>)}
         </select>
+      </div>
 
-        <select value={selectedPeriod} onChange={(e) => setSelectedPeriod(e.target.value)} required className="InputSchedule">
-          <option value="">Тривалість пари</option>
-          {periods.map((period) => (
-            <option key={period._id} value={period._id}>
-              {period.name}
-            </option>
-          ))}
-        </select>
+      {loading && <p className="schedule-status">Завантаження…</p>}
 
-          <div 
-          className="buttonForScheduleAdd"
-          onClick={() => !loading && formRef.current.requestSubmit()}
-          role="button"
-          tabIndex={0}
-          onKeyPress={(e) => !loading && e.key === 'Enter' && formRef.current.requestSubmit()}
-        >
-          Додати
+      {modalOpen && (
+        <div className="edit-lesson-modal-overlay" onClick={() => setModalOpen(false)}>
+          <div className="edit-lesson-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setModalOpen(false)} aria-label="Закрити">&times;</button>
+            <h2>Додати пару</h2>
+            {error && <div className="error-message">{error}</div>}
+
+            <form onSubmit={handleSubmit} ref={formRef}>
+              <p className="modal-context">
+                {specialties.find((s) => s._id === selectedSpecialty)?.name} · {courses.find((c) => c._id === selectedCourse)?.name} · група {groups.find((g) => g._id === selectedGroup)?.name}
+              </p>
+              <div className="form-group">
+                <label>Предмет:</label>
+                <input
+                  type="text"
+                  list="lesson-disciplines"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Почніть вводити назву…"
+                  required
+                  autoComplete="off"
+                />
+                <datalist id="lesson-disciplines">
+                  {disciplines.map((d) => <option key={d._id} value={d.name} />)}
+                </datalist>
+              </div>
+              <div className="form-group">
+                <label>Викладач:</label>
+                <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required>
+                  <option value="">Оберіть викладача</option>
+                  {teachers.map((teacher) => <option key={teacher._id} value={teacher._id}>{teacher.fullName}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Тип пари:</label>
+                <select value={lessonType} onChange={(e) => setLessonType(e.target.value)} required>
+                  <option value="">Оберіть тип пари</option>
+                  <option value="Практика">Практика</option>
+                  <option value="Лекція">Лекція</option>
+                  <option value="Лабораторна">Лабораторна</option>
+                  <option value="Іспит">Іспит</option>
+                  <option value="Навчальна практика">Навчальна практика</option>
+                  <option value="Виїзна практика">Виїзна практика</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Кабінет:</label>
+                <select value={selectedClassroom} onChange={(e) => setSelectedClassroom(e.target.value)} required>
+                  <option value="">Оберіть кабінет</option>
+                  {classrooms.map((classroom) => <option key={classroom._id} value={classroom._id}>{classroom.name}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Тривалість пари:</label>
+                <select value={selectedPeriod} onChange={(e) => setSelectedPeriod(e.target.value)} required>
+                  <option value="">Оберіть тривалість</option>
+                  {periods.map((period) => <option key={period._id} value={period._id}>{period.name}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Дата:</label>
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              </div>
+
+              <div className="form-actions">
+                <button type="button" onClick={() => setModalOpen(false)}>Скасувати</button>
+                <button type="submit">Додати</button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        </div>
-
-        
-      </form>
+      )}
 
       <div className="schedule-container_ForLesson">
                 {weekDays.map((day) => (

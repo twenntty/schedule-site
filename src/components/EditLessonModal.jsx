@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../styles/EditLessonModal.css";
 
 
 const EditLessonModal = ({ lesson, onClose, onSave }) => {
@@ -50,6 +51,13 @@ const EditLessonModal = ({ lesson, onClose, onSave }) => {
     fetchData();
   }, [API_URL]);
 
+  // Close on Escape.
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLessonData(prev => ({
@@ -87,16 +95,17 @@ const EditLessonModal = ({ lesson, onClose, onSave }) => {
     }
   };
 
-  if (loading) return <div className="loading">Завантаження...</div>;
-
   return (
-    <div className="edit-lesson-modal-overlay">
-      <div className="edit-lesson-modal">
-        <button className="close-button" onClick={onClose}>&times;</button>
+    <div className="edit-lesson-modal-overlay" onClick={onClose}>
+      <div className="edit-lesson-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="close-button" onClick={onClose} aria-label="Закрити">&times;</button>
         <h2>Редагування пари</h2>
-        
+
         {error && <div className="error-message">{error}</div>}
 
+        {loading ? (
+          <div className="loading">Завантаження…</div>
+        ) : (
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Предмет:</label>
@@ -191,6 +200,7 @@ const EditLessonModal = ({ lesson, onClose, onSave }) => {
             <button type="submit">Зберегти</button>
           </div>
         </form>
+        )}
       </div>
     </div>
   );

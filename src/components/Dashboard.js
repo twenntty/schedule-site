@@ -14,6 +14,7 @@ const Members = lazy(() => import("./MembersList"));
 const Speciality = lazy(() => import("./CreateSpeciality"));
 const ManageCourses = lazy(() => import("./СreateCourse"));
 const ManageGroups = lazy(() => import("./ManageGroups"));
+const ManageDisciplines = lazy(() => import("./ManageDisciplines"));
 const ManageStudentsSchedule = lazy(() => import("../pages/StudentSchedule"));
 const ManageTeachersSchedule = lazy(() => import("../pages/TeacherSchedule"));
 const EditSchedule = lazy(() => import("../pages/EditSchedule"));
@@ -31,16 +32,11 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem("token");
-                if (!token) navigate("/auth");
-                
                 const apiUrl = `${process.env.REACT_APP_API_URL}/auth/me`;
-                const response = await axios.get(apiUrl, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await axios.get(apiUrl); // auth via httpOnly cookie
                 setUser(response.data);
             } catch (error) {
-                console.error("Ошибка загрузки данных:", error);
+                console.error("Помилка завантаження даних:", error);
                 navigate("/auth");
             }
         };
@@ -64,6 +60,8 @@ const Dashboard = () => {
                 return <ManageCourses />;
             case "groups":
                 return <ManageGroups />;
+            case "disciplines":
+                return <ManageDisciplines />;
             case "schedule-groups":
                 return <ManageStudentsSchedule />;  
             case "schedule-teachers":

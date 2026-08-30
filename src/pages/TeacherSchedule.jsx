@@ -3,6 +3,8 @@ import axios from "axios";
 import "../styles/TeacherSchedule.css";
 
 const TeacherSchedule = () => {
+    const [institutions, setInstitutions] = useState([]);
+    const [selectedInstitution, setSelectedInstitution] = useState("");
     const [teachers, setTeachers] = useState([]);
     const [schedule, setSchedule] = useState([]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
@@ -35,24 +37,32 @@ const TeacherSchedule = () => {
         return { startOfWeek: start, endOfWeek: end };
     }, []);
     
-    // Получение списка преподавателей
+    // Список закладів (публічний розклад скоупиться по закладу)
     useEffect(() => {
-        const fetchTeachers = async () => {
-            setLoadingTeachers(true);
-            setErrorTeachers("");
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/teachers`);
-                setTeachers(response.data);
-            } catch (err) {
-                setErrorTeachers("Помилка загрузки викладачів");
-                console.error("Teachers Error:", err);
-            } finally {
-                setLoadingTeachers(false);
-            }
-        };
-
-        fetchTeachers();
+        axios.get(`${process.env.REACT_APP_API_URL}/institutions`)
+            .then((res) => setInstitutions(res.data))
+            .catch(() => setErrorTeachers("Помилка завантаження закладів"));
     }, []);
+
+    const handleInstitutionChange = async (e) => {
+        const institutionId = e.target.value;
+        setSelectedInstitution(institutionId);
+        setSelectedTeacher("");
+        setTeachers([]);
+        setSchedule([]);
+        if (!institutionId) return;
+
+        setLoadingTeachers(true);
+        setErrorTeachers("");
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/teachers?institution=${institutionId}`);
+            setTeachers(response.data);
+        } catch (err) {
+            setErrorTeachers("Помилка загрузки викладачів");
+        } finally {
+            setLoadingTeachers(false);
+        }
+    };
 
     // Получение расписания выбранного преподавателя
     const handleTeacherChange = async (e) => {
@@ -107,10 +117,21 @@ const scheduleByDay = useMemo(() => {
         <div className="teacher-schedule-container">
             {/* Выбор преподавателя */}
             <div className="ValueTeacher">
-                <select 
-                    value={selectedTeacher} 
+                <select
+                    value={selectedInstitution}
+                    onChange={handleInstitutionChange}
+                    className="ValueUniversityInfo_Teacher"
+                    style={{ marginRight: 12 }}
+                >
+                    <option value="">Оберіть Заклад</option>
+                    {institutions.map((inst) => (
+                        <option key={inst._id} value={inst._id}>{inst.name}</option>
+                    ))}
+                </select>
+                <select
+                    value={selectedTeacher}
                     onChange={handleTeacherChange}
-                    disabled={loadingTeachers}
+                    disabled={loadingTeachers || !selectedInstitution}
                     className="ValueUniversityInfo_Teacher"
                 >
                     <option value="">Оберіть Викладача</option>

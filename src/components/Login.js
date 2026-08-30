@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import HeaderForAuth from "../Widget/HeaderForAuth/HeaderForAuth";
 import "../styles/Auth.css";
@@ -23,11 +23,11 @@ const Login = () => {
         setError(null);
         
         try {
-            const response = await axios.post(`${API_URL}/auth/login`, { email, password });
-            localStorage.setItem("token", response.data.token);
+            // The server sets an httpOnly auth cookie; nothing is stored in JS.
+            await axios.post(`${API_URL}/auth/login`, { email, password });
             navigate("/dashboard");
         } catch (err) {
-            setError("Ошибка входа");
+            setError("Невірний email або пароль");
         }
     };
 
@@ -67,6 +67,7 @@ const Login = () => {
                             />
                         </div>
                         <button type="submit" className="Form_button">Увійти до Sched</button>
+                        <p className="auth-switch">Немає закладу? <Link to="/register-institution">Зареєструвати заклад</Link></p>
                     </form>
                 </div>
                 <div className="ImgForAuth">
